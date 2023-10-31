@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
+import 'package:hedspi_learningapp/constant.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,7 +17,6 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     // Đợi 5 giây sau đó điều hướng đến màn hình đăng nhập
     Future.delayed(const Duration(seconds: 10), () {
-      print('Splash Screen');
       Navigator.pushNamedAndRemoveUntil(
           context, LoginScreen.routeName, (route) => false);
     });
