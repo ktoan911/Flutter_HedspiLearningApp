@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Screen/splash_screen.dart';
 import 'package:hedspi_learningapp/constant.dart';
 import 'package:hedspi_learningapp/routes.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,9 +17,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hedspi Learning Support App',
       theme: ThemeData.light().copyWith(
-        scaffoldBackgroundColor: kPrimaryColor,
-        primaryColor: kPrimaryColor,
-      ),
+          scaffoldBackgroundColor: kPrimaryColor,
+          primaryColor: kPrimaryColor,
+          textTheme:
+              GoogleFonts.sourceSansProTextTheme(Theme.of(context).textTheme)
+                  .apply()
+                  .copyWith(
+                    bodyLarge: const TextStyle(
+                        color: kTextWhiteColor,
+                        fontSize: 35.0,
+                        fontWeight: FontWeight.bold),
+                    bodyMedium:
+                        const TextStyle(color: kTextWhiteColor, fontSize: 18),
+                  )),
       //initial route is splash screen
       //mean first screen
       initialRoute: SplashScreen.routeName,
