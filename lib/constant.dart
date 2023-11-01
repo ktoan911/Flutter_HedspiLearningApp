@@ -20,3 +20,9 @@ const String emailPattern =
 
 const String soict_img = 'assets/images/soict.png';
 const String hedspi_img = 'assets/images/hedspi.png';
+const String student_img = 'assets/images/student.png';
+
+class Student {
+  static String name = 'admin';
+  static String classes = 'J6';
+}

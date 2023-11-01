@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/custom_btn.dart';
+import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/constant.dart';
 
-late bool _passwordVisible;
+late bool _passwordInVisible;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     //TODO : implement initState
     super.initState();
-    _passwordVisible = false;
+    _passwordInVisible = true;
   }
 
   @override
@@ -63,7 +64,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       DefaultBtn(
                           onPress: () {
                             if (_formKey.currentState!.validate()) {
-//goto next activitise
+                              //goto next activitise
+                              Navigator.pushNamedAndRemoveUntil(context,
+                                  HomeScreen.routeName, (route) => false);
                             }
                           },
                           title: 'SIGN IN',
@@ -151,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextFormField passwordInput() {
     return TextFormField(
-      obscureText: _passwordVisible,
+      obscureText: _passwordInVisible,
       textAlign: TextAlign.start,
       keyboardType: TextInputType.emailAddress,
       style: const TextStyle(
@@ -163,11 +166,11 @@ class _LoginScreenState extends State<LoginScreen> {
         suffixIcon: IconButton(
           onPressed: () {
             setState(() {
-              _passwordVisible = !_passwordVisible;
+              _passwordInVisible = !_passwordInVisible;
             });
           },
           icon: Icon(
-            _passwordVisible
+            _passwordInVisible
                 ? Icons.visibility_off_outlined
                 : Icons.visibility_outlined,
           ),
