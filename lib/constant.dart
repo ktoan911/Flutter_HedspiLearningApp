@@ -13,6 +13,20 @@ const kDefaultPadding = 20.0;
 
 const sizedBox = SizedBox(height: kDefaultPadding);
 
+class SizeBoxOpt extends StatelessWidget {
+  const SizeBoxOpt({
+    Key? key,
+    required this.high,
+  }) : super(key: key);
+
+  final double high;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(height: high);
+  }
+}
+
 const String mobilePattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
 
 const String emailPattern =
@@ -20,9 +34,21 @@ const String emailPattern =
 
 const String soict_img = 'assets/images/soict.png';
 const String hedspi_img = 'assets/images/hedspi.png';
-const String student_img = 'assets/images/student.png';
+
+const String ask_icon = 'assets/icons/ask.svg';
+const String assignment_icon = 'assets/icons/assignment.svg';
+const String calenda_icon = 'assets/icons/calenda.svg';
+const String event_icon = 'assets/icons/event.svg';
+const String gallery_icon = 'assets/icons/gallery.svg';
+const String lock_icon = 'assets/icons/lock.svg';
+const String quiz_icon = 'assets/icons/quiz.svg';
+const String resume_icon = 'assets/icons/resume.svg';
+const String setting_icon = 'assets/icons/setting.svg';
+const String logout_icon = 'assets/icons/logout.svg';
+const String result_icon = 'assets/icons/result.svg';
 
 class Student {
   static String name = 'admin';
   static String classes = 'J6';
+  static String student_img = 'assets/images/student.png';
 }
