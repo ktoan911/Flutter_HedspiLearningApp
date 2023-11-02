@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hedspi_learningapp/Screen/Student_Profile/student_proffile.dart';
 import 'package:hedspi_learningapp/constant.dart';
 
-class studentName extends StatelessWidget {
-  const studentName({
+class StudentName extends StatelessWidget {
+  const StudentName({
     super.key,
     required this.name,
   });
@@ -87,8 +88,8 @@ class StudentPicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          Navigator.pushNamed(context, '/profile'), // go to profile edit screen
+      onTap: () => Navigator.pushNamed(
+          context, StudentProfile.routeName), // go to profile edit screen
       child: CircleAvatar(
         minRadius: 50.0,
         maxRadius: 50.0,

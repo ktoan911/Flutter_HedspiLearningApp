@@ -9,7 +9,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -19,6 +19,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: kPrimaryColor,
         primaryColor: kPrimaryColor,
+        appBarTheme: const AppBarTheme(
+          color: kPrimaryColor,
+          elevation: 0.0,
+        ),
         textTheme:
             GoogleFonts.sourceSansProTextTheme(Theme.of(context).textTheme)
                 .apply()

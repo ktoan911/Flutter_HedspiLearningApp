@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        studentName(
+                        StudentName(
                           name: Student.name,
                         ),
                         const SizeBoxOpt(high: kDefaultPadding / 2),
