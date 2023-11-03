@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hedspi_learningapp/AppData.dart';
+import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_screen.dart';
+import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/Widget/Student_Data.dart';
 import 'package:hedspi_learningapp/constant.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -72,20 +76,23 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: ListView(
                       physics: const BouncingScrollPhysics(),
-                      children: const [
+                      children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            HomeOptionSelect(
+                            const HomeOptionSelect(
                                 onPress: null, icon: ask_icon, title: 'Ask'),
                             HomeOptionSelect(
-                                onPress: null,
+                                onPress: () {
+                                  Navigator.pushNamed(
+                                      context, AssignmentScreen.routeName);
+                                },
                                 icon: assignment_icon,
                                 title: 'Assignment'),
                           ],
                         ),
-                        SizeBoxOpt(high: kDefaultPadding / 2),
-                        Row(
+                        const SizeBoxOpt(high: kDefaultPadding / 2),
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             HomeOptionSelect(
@@ -98,30 +105,33 @@ class HomeScreen extends StatelessWidget {
                                 title: 'Event'),
                           ],
                         ),
-                        SizeBoxOpt(high: kDefaultPadding / 2),
+                        const SizeBoxOpt(high: kDefaultPadding / 2),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             HomeOptionSelect(
-                                onPress: null,
+                                onPress: () {
+                                  _launchURL(Uri.parse('https://flutter.dev'));
+                                },
                                 icon: resume_icon,
                                 title: 'Resume'),
-                            HomeOptionSelect(
-                                onPress: null,
-                                icon: result_icon,
-                                title: 'Result'),
+                            const HomeOptionSelect(
+                                onPress: null, icon: note_icon, title: 'Note'),
                           ],
                         ),
-                        SizeBoxOpt(high: kDefaultPadding / 2),
+                        const SizeBoxOpt(high: kDefaultPadding / 2),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            HomeOptionSelect(
+                            const HomeOptionSelect(
                                 onPress: null,
                                 icon: setting_icon,
                                 title: 'Setting'),
                             HomeOptionSelect(
-                                onPress: null,
+                                onPress: () {
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      LoginScreen.routeName, (route) => false);
+                                },
                                 icon: logout_icon,
                                 title: 'Log out'),
                           ],
@@ -182,5 +192,11 @@ class HomeOptionSelect extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Future<void> _launchURL(Uri url) async {
+  if (!await launchUrl(url)) {
+    throw Exception('Could not launch $url');
   }
 }

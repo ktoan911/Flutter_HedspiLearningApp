@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/Screen/splash_screen.dart';
+import 'package:hedspi_learningapp/Screen/Splash/splash_screen.dart';
 import 'package:hedspi_learningapp/constant.dart';
 import 'package:hedspi_learningapp/routes.dart';
 import 'package:google_fonts/google_fonts.dart';
