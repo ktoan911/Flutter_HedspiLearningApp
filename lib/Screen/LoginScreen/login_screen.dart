@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
       style: const TextStyle(
           color: kTextBlackColor, fontSize: 17.0, fontWeight: FontWeight.w300),
       decoration: const InputDecoration(
-        labelText: 'Mobile Number/ Email',
+        labelText: 'Email',
         floatingLabelBehavior: FloatingLabelBehavior.always,
         isDense: true,
       ),
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
           return 'Please enter your password';
           //if dose not match the regex pattern
         } else if (!regex.hasMatch(value)) {
-          return 'Enter Valid Password';
+          return 'Enter Valid Email';
         }
         return null;
       },
