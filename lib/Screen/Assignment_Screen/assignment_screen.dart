@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/AppData.dart';
-import 'package:hedspi_learningapp/constant.dart';
+import 'package:hedspi_learningapp/Component/constant.dart';
 
 class AssignmentScreen extends StatelessWidget {
   const AssignmentScreen({Key? key}) : super(key: key);

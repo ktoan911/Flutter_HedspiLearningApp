@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/custom_btn.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
-import 'package:hedspi_learningapp/constant.dart';
+import 'package:hedspi_learningapp/Component/constant.dart';
 
 late bool _passwordInVisible;
 

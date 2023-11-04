@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/AppData.dart';
-import 'package:hedspi_learningapp/constant.dart';
+import 'package:hedspi_learningapp/Component/constant.dart';
 
 class StudentProfile extends StatelessWidget {
   const StudentProfile({super.key});

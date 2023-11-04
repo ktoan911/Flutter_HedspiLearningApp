@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hedspi_learningapp/Note/note_screen.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_screen.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 import 'package:hedspi_learningapp/Screen/Student_Profile/student_proffile.dart';
@@ -12,4 +13,5 @@ Map<String, WidgetBuilder> routes = {
   HomeScreen.routeName: (context) => const HomeScreen(),
   AssignmentScreen.routeName: (context) => const AssignmentScreen(),
   StudentProfile.routeName: (context) => const StudentProfile(),
+  NoteScreen.routeName: (context) => const NoteScreen(),
 };

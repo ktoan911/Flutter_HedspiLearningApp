@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/constant.dart';
+import 'package:hedspi_learningapp/Component/constant.dart';
 
 class DefaultBtn extends StatelessWidget {
   final VoidCallback onPress;

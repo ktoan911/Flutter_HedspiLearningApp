@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hedspi_learningapp/AppData.dart';
+import 'package:hedspi_learningapp/Note/note_screen.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_screen.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/Widget/Student_Data.dart';
-import 'package:hedspi_learningapp/constant.dart';
+import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -115,8 +116,13 @@ class HomeScreen extends StatelessWidget {
                                 },
                                 icon: resume_icon,
                                 title: 'Resume'),
-                            const HomeOptionSelect(
-                                onPress: null, icon: note_icon, title: 'Note'),
+                            HomeOptionSelect(
+                                onPress: () {
+                                  Navigator.pushNamed(
+                                      context, NoteScreen.routeName);
+                                },
+                                icon: note_icon,
+                                title: 'Note'),
                           ],
                         ),
                         const SizeBoxOpt(high: kDefaultPadding / 2),

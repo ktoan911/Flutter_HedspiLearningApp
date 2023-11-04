@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 // ignore: unused_import
-import 'package:hedspi_learningapp/constant.dart';
+import 'package:hedspi_learningapp/Component/constant.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
