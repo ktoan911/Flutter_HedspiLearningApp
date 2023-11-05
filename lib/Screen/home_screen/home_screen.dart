@@ -1,12 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Note/note_screen.dart';
+import 'package:hedspi_learningapp/Result/result_screen.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_screen.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/Widget/Student_Data.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:async';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -47,14 +51,17 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               sizedBox,
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  HighLightInfo(
+                  const HighLightInfo(
                     title: 'Attendance',
                     data: '100%',
                   ),
                   HighLightInfo(
+                    onPress: () {
+                      Navigator.pushNamed(context, ResultScreen.routeName);
+                    },
                     title: 'Average Score',
                     data: '9.8/10',
                   ),
@@ -205,4 +212,14 @@ Future<void> _launchURL(Uri url) async {
   if (!await launchUrl(url)) {
     throw Exception('Could not launch $url');
   }
+}
+
+Future<void> loadData(BuildContext context, String route) async {
+  // Thực hiện tải lại dữ liệu ở đây (đảm bảo bạn cập nhật dữ liệu từ nguồn dữ liệu mới)
+
+  // Chờ 1 khoảng thời gian ngắn để mô phỏng việc tải lại dữ liệu
+  await Future.delayed(const Duration(seconds: 1));
+
+  // Thay thế màn hình hiện tại bằng màn hình kết quả
+  Navigator.pushReplacementNamed(context, route);
 }
