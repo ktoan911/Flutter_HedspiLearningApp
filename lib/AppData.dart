@@ -1,4 +1,3 @@
-// ignore: file_names
 class AssignmetData {
   late final String subjectName;
   late final String topicName;

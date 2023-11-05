@@ -6,6 +6,7 @@ import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 import 'package:hedspi_learningapp/Screen/Student_Profile/student_proffile.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/Screen/Splash/splash_screen.dart';
+import 'package:hedspi_learningapp/TimeTable/timetabl_screen.dart';
 
 Map<String, WidgetBuilder> routes = {
   // SplashScreen.routeName: (context) => const SplashScreen(),
@@ -16,4 +17,5 @@ Map<String, WidgetBuilder> routes = {
   StudentProfile.routeName: (context) => const StudentProfile(),
   NoteScreen.routeName: (context) => const NoteScreen(),
   ResultScreen.routeName: (context) => const ResultScreen(),
+  TimeTable.routeName: (context) => const TimeTable(),
 };

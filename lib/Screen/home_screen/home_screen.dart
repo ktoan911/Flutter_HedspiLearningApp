@@ -9,6 +9,7 @@ import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_screen.da
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/Widget/Student_Data.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
+import 'package:hedspi_learningapp/TimeTable/timetabl_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
@@ -100,14 +101,17 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                         const SizeBoxOpt(high: kDefaultPadding / 2),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             HomeOptionSelect(
-                                onPress: null,
+                                onPress: () {
+                                  Navigator.pushNamed(
+                                      context, TimeTable.routeName);
+                                },
                                 icon: calenda_icon,
                                 title: 'TimeTable'),
-                            HomeOptionSelect(
+                            const HomeOptionSelect(
                                 onPress: null,
                                 icon: event_icon,
                                 title: 'Event'),
