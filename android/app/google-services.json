@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "423128635419",
+    "project_id": "gdsc-7fe56",
+    "storage_bucket": "gdsc-7fe56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423128635419:android:c7b044e360198bee3b00be",
+        "android_client_info": {
+          "package_name": "com.example.hedspi_learningapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz28w0tbTSiQa39-dbexliLSYqzsIuG7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

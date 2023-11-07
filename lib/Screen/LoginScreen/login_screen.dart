@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/custom_btn.dart';
+import 'package:hedspi_learningapp/Screen/Register_Screen/register_screen.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 
@@ -31,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
           body: ListView(
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           SizedBox(
             //chia màn hình làm đôi
@@ -80,6 +82,36 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .bodySmall!
                                 .copyWith(
                                     color: kPrimaryColor, fontSize: 15.0)),
+                      ),
+                      sizedBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Don't have an account?",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: kPrimaryColor, fontSize: 15.0),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamedAndRemoveUntil(context,
+                                  RegisterScreen.routeName, (route) => false);
+                            },
+                            child: Text(
+                              "Sign Up",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      color: kPrimaryColor, fontSize: 15.0),
+                            ),
+                          ),
+                        ],
                       ),
                     ]))
               ]),

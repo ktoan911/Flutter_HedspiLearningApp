@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Note/note_screen.dart';
+import 'package:hedspi_learningapp/Result/result_data.dart';
 import 'package:hedspi_learningapp/Result/result_screen.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_screen.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
@@ -43,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                           classgrade: Student.classes,
                         ),
                         const SizeBoxOpt(high: kDefaultPadding / 2),
-                        const StudentYearLearning(year: '2023 - 2024')
+                        StudentYearLearning(year: Student.studyYear)
                       ]),
                   const SizeBoxOpt(high: kDefaultPadding / 4),
                   StudentPicture(
@@ -64,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.pushNamed(context, ResultScreen.routeName);
                     },
                     title: 'Average Score',
-                    data: '9.8/10',
+                    data: '${SumScore(resultList)} / ${resultList.length * 10}',
                   ),
                 ],
               )
@@ -113,8 +114,8 @@ class HomeScreen extends StatelessWidget {
                                 title: 'TimeTable'),
                             const HomeOptionSelect(
                                 onPress: null,
-                                icon: event_icon,
-                                title: 'Event'),
+                                icon: translate_icon,
+                                title: 'Translation'),
                           ],
                         ),
                         const SizeBoxOpt(high: kDefaultPadding / 2),

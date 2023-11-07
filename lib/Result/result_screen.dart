@@ -11,10 +11,7 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double sumMark =
-        resultList.map((e) => e.totalScore).fold(0, (a, b) => a + b);
-    sumMark = double.parse(sumMark.toStringAsFixed(2));
-
+    double result = SumScore(resultList);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -36,13 +33,13 @@ class ResultScreen extends StatelessWidget {
                   foregroundPainter: CircularPainter(
                       backgroundColor: Colors.white,
                       lineColor: getGradeColor(double.parse(
-                              (sumMark / (resultList.length * 10))
+                              (result / (resultList.length * 10))
                                   .toStringAsFixed(2)) *
                           10),
                       width: 30,
-                      percent: sumMark / (resultList.length * 10)),
+                      percent: result / (resultList.length * 10)),
                   child: Center(
-                    child: Text('$sumMark\n/\n${resultList.length * 10}',
+                    child: Text('$result\n/\n${resultList.length * 10}',
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme

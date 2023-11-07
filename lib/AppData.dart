@@ -29,6 +29,8 @@ class Student {
   static int numOutCourse = 0;
   static double averageScore = 9.8;
   static String regisNum = '2022-HUST-2609';
+  static String studyYear = '2023-2024';
+
   // ignore: non_constant_identifier_names
   static String student_img = 'assets/images/student.png';
   static String email = 'abc@gmai.com';
