@@ -61,3 +61,13 @@ List<Color> backgroundColors = [
   const Color(0xFFD4EDDA), // mint green
   const Color(0xFFFFF3CD), // pale orange
 ];
+
+class StudentProfileConst {
+  static const String name = 'Name';
+  static const String Class = 'Class';
+  static const String birth = 'Birth';
+  static const String studyYear = 'Study Year';
+  static const String phoneNumber = 'Phone Number';
+  static const String studentID = 'Student ID';
+  static const String homeTown = 'HomeTown';
+}

@@ -23,20 +23,25 @@ List<AssignmetData> assignList = [
 ];
 
 class Student {
-  static String name = 'Nguyen Khanh Toan';
-  static String classes = 'J6';
-  static String birth = '20/10/2004';
+  static late String name;
+  static late String classes;
+  static late String birth;
   static int numOutCourse = 0;
   static double averageScore = 9.8;
   static String regisNum = '2022-HUST-2609';
-  static String studyYear = '2023-2024';
+  static late String studyYear;
 
   // ignore: non_constant_identifier_names
   static String student_img = 'assets/images/student.png';
-  static String email = 'abc@gmai.com';
-  static String phonenumber = '090xxxxxxx';
-  static String studentID = '202260xxx';
-  static String hometown = 'Ha Noi';
-  static String fatherName = 'Nguyen Van A';
-  static String motherName = 'Nguyen Thi B';
+  static String email = '';
+  static late String phonenumber;
+  static late String studentID;
+  static late String hometown;
+
+  static late String password;
+
+  static void setEmailPassword(String email, String password) {
+    Student.email = email;
+    Student.password = password;
+  }
 }

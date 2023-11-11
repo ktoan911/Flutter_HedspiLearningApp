@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hedspi_learningapp/AppData.dart';
@@ -147,6 +148,7 @@ class HomeScreen extends StatelessWidget {
                                 title: 'Setting'),
                             HomeOptionSelect(
                                 onPress: () {
+                                  FirebaseAuth.instance.signOut();
                                   Navigator.pushNamedAndRemoveUntil(context,
                                       LoginScreen.routeName, (route) => false);
                                 },

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
+import 'package:hedspi_learningapp/Screen/FillProifileScreen/new_profile_screen.dart';
 // ignore: unused_import
 import 'package:hedspi_learningapp/Component/constant.dart';
+import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

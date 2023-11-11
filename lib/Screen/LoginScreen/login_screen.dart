@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/custom_btn.dart';
 import 'package:hedspi_learningapp/Screen/Register_Screen/register_screen.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
+import 'package:hedspi_learningapp/firebase_auth_implemention/firebase_auth_services.dart';
 
 late bool _passwordInVisible;
 
@@ -16,6 +18,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final FireBaseAuthService _auth = FireBaseAuthService();
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   final _formKey = GlobalKey<FormState>();
   @override
   //change password visible
@@ -66,9 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       DefaultBtn(
                           onPress: () {
                             if (_formKey.currentState!.validate()) {
-                              //goto next activitise
-                              Navigator.pushNamedAndRemoveUntil(context,
-                                  HomeScreen.routeName, (route) => false);
+                              _logIn(context);
                             }
                           },
                           title: 'SIGN IN',
@@ -161,6 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextFormField emailInput() {
     return TextFormField(
+      controller: _emailController,
       textAlign: TextAlign.start,
       keyboardType: TextInputType.emailAddress,
       style: const TextStyle(
@@ -186,6 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextFormField passwordInput() {
     return TextFormField(
+      controller: _passwordController,
       obscureText: _passwordInVisible,
       textAlign: TextAlign.start,
       keyboardType: TextInputType.emailAddress,
@@ -220,5 +234,18 @@ class _LoginScreenState extends State<LoginScreen> {
         return null;
       },
     );
+  }
+
+  void _logIn(BuildContext context) async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    User? user = await _auth.logInWithEmailAndPassword(email, password);
+
+    if (user != null) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, HomeScreen.routeName, (route) => false);
+    } else {
+      print('Login failed');
+    }
   }
 }

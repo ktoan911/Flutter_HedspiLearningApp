@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/Component/custom_btn.dart';
+import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Screen/FillProifileScreen/new_profile_screen.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
-import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 
 late bool _passwordInVisible;
@@ -17,6 +16,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  late String passwordFill;
   final _formKey = GlobalKey<FormState>();
   @override
   //change password visible
@@ -24,6 +24,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     //TODO : implement initState
     super.initState();
     _passwordInVisible = true;
+  }
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -77,12 +87,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           sizedBox,
                           GestureDetector(
                             onTap: () {
+                              Student.setEmailPassword(_emailController.text,
+                                  _passwordController.text);
                               if (_formKey.currentState!.validate()) {
-                                //goto next activitise
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    FillProfileScreen.routeName,
-                                    (route) => false);
+                                Navigator.pushNamed(
+                                    context, FillProfileScreen.routeName);
                               }
                             },
                             child: Row(
@@ -95,14 +104,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       .bodyLarge!
                                       .copyWith(
                                           color: kPrimaryColor,
-                                          fontSize: 23.0,
+                                          fontSize: 21.0,
                                           fontWeight: FontWeight.w500),
                                 ),
                                 const SizedBox(width: kDefaultPadding / 2),
                                 const Icon(
                                   Icons.arrow_forward_outlined,
                                   color: kPrimaryColor,
-                                  size: 25.0,
+                                  size: 22.0,
                                 ),
                               ],
                             ),
@@ -120,6 +129,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           fontSize: 15.0)),
                               GestureDetector(
                                 onTap: () {
+                                  Student.setEmailPassword(
+                                      _emailController.text,
+                                      _passwordController.text);
                                   Navigator.pushNamedAndRemoveUntil(context,
                                       LoginScreen.routeName, (route) => false);
                                 },
@@ -171,6 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   TextFormField emailInput() {
     return TextFormField(
+      controller: _emailController,
       textAlign: TextAlign.start,
       keyboardType: TextInputType.emailAddress,
       style: const TextStyle(
@@ -196,6 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   TextFormField passwordInput() {
     return TextFormField(
+      controller: _passwordController,
       obscureText: _passwordInVisible,
       textAlign: TextAlign.start,
       keyboardType: TextInputType.emailAddress,
@@ -227,6 +241,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         } else if (value.length < 6) {
           return 'Minimum 6 characters required';
         }
+        passwordFill = value;
         return null;
       },
     );
@@ -264,6 +279,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           //if dose not match the regex pattern
         } else if (value.length < 6) {
           return 'Minimum 6 characters required';
+        } else if (value != passwordFill) {
+          return 'Password does not match';
         }
         return null;
       },

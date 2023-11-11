@@ -121,14 +121,6 @@ class StudentProfile extends StatelessWidget {
               title: 'HomeTown',
               detail: Student.hometown,
             ),
-            ProfileDetailLong(
-              title: 'Father Name',
-              detail: Student.fatherName,
-            ),
-            ProfileDetailLong(
-              title: 'Mother Name',
-              detail: Student.motherName,
-            ),
           ],
         ),
       ),
