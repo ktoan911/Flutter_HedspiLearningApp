@@ -1,10 +1,13 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Component/custom_btn.dart';
 import 'package:hedspi_learningapp/Screen/Register_Screen/register_screen.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
-import 'package:hedspi_learningapp/firebase_auth_implemention/firebase_auth_services.dart';
+import 'package:hedspi_learningapp/Firebase/firebase_auth_implemention/firebase_auth_services.dart';
 
 late bool _passwordInVisible;
 
@@ -34,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   //change password visible
   void initState() {
-    //TODO : implement initState
     super.initState();
     _passwordInVisible = true;
   }
@@ -242,6 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
     User? user = await _auth.logInWithEmailAndPassword(email, password);
 
     if (user != null) {
+      Student.uid = user.uid;
       Navigator.pushNamedAndRemoveUntil(
           context, HomeScreen.routeName, (route) => false);
     } else {

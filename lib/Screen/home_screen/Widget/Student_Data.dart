@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Screen/Student_Profile/student_proffile.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';

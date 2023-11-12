@@ -26,26 +26,24 @@ class ResultScreen extends StatelessWidget {
         body: Column(
           children: [
             Container(
-              child: Container(
-                height: MediaQuery.of(context).size.height / 5,
-                margin: const EdgeInsets.all(kDefaultPadding),
-                child: CustomPaint(
-                  foregroundPainter: CircularPainter(
-                      backgroundColor: Colors.white,
-                      lineColor: getGradeColor(double.parse(
-                              (result / (resultList.length * 10))
-                                  .toStringAsFixed(2)) *
-                          10),
-                      width: 30,
-                      percent: result / (resultList.length * 10)),
-                  child: Center(
-                    child: Text('$result\n/\n${resultList.length * 10}',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: kTextWhiteColor, fontSize: 25)),
-                  ),
+              height: MediaQuery.of(context).size.height / 5,
+              margin: const EdgeInsets.all(kDefaultPadding),
+              child: CustomPaint(
+                foregroundPainter: CircularPainter(
+                    backgroundColor: Colors.white,
+                    lineColor: getGradeColor(double.parse(
+                            (result / (resultList.length * 10))
+                                .toStringAsFixed(2)) *
+                        10),
+                    width: 30,
+                    percent: result / (resultList.length * 10)),
+                child: Center(
+                  child: Text('$result\n/\n${resultList.length * 10}',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: kTextWhiteColor, fontSize: 25)),
                 ),
               ),
             ),

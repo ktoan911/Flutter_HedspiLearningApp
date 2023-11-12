@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 
@@ -17,7 +19,6 @@ class _EditScreenState extends State<EditScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     if (widget.note != null) {
       _titleController = TextEditingController(text: widget.note!.title);
       _contentController = TextEditingController(text: widget.note!.content);

@@ -36,7 +36,6 @@ const String emailPattern =
 
 const String soict_img = 'assets/images/soict.png';
 const String hedspi_img = 'assets/images/hedspi.png';
-
 const String ask_icon = 'assets/icons/ask.svg';
 const String assignment_icon = 'assets/icons/assignment.svg';
 const String calenda_icon = 'assets/icons/calenda.svg';
@@ -70,4 +69,9 @@ class StudentProfileConst {
   static const String phoneNumber = 'Phone Number';
   static const String studentID = 'Student ID';
   static const String homeTown = 'HomeTown';
+  static const String uid = 'uid';
+}
+
+class FirebaseStringConst {
+  static const ProfileCollection = 'UserProfile';
 }

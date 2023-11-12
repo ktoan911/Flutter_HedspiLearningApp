@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Component/custom_btn.dart';
+import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
-import 'package:hedspi_learningapp/firebase_auth_implemention/firebase_auth_services.dart';
+import 'package:hedspi_learningapp/Firebase/firebase_auth_implemention/firebase_auth_services.dart';
 
 final FireBaseAuthService _auth = FireBaseAuthService();
 
@@ -162,6 +164,7 @@ void _signUp(BuildContext context) async {
   User? user = await _auth.signUpWithEmailAndPassword(email, password);
 
   if (user != null) {
+    Student.uid = user.uid;
     addUserDetail(
         Student.name,
         Student.birth,
@@ -170,29 +173,10 @@ void _signUp(BuildContext context) async {
         Student.phonenumber,
         Student.studentID,
         Student.student_img,
-        Student.studyYear);
+        Student.studyYear,
+        user.uid,
+        Student.email);
     Navigator.pushNamedAndRemoveUntil(
         context, HomeScreen.routeName, (route) => false);
   } else {}
-}
-
-Future addUserDetail(
-    String name,
-    String birth,
-    String Class,
-    String hometown,
-    String phonenumber,
-    String studentID,
-    String studentImgLink,
-    String studyYear) async {
-  await FirebaseFirestore.instance.collection('UserProfile').add({
-    'name': name,
-    'birth': birth,
-    'class': Class,
-    'hometown': hometown,
-    'phonenumber': phonenumber,
-    'studentID': studentID,
-    //'student_img': studentImgLink,
-    'studyYear': studyYear,
-  });
 }

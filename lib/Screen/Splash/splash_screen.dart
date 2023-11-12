@@ -1,7 +1,6 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/Screen/FillProifileScreen/new_profile_screen.dart';
-// ignore: unused_import
-import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {

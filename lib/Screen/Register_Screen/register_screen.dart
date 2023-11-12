@@ -21,7 +21,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   //change password visible
   void initState() {
-    //TODO : implement initState
     super.initState();
     _passwordInVisible = true;
   }

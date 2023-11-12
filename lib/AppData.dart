@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class AssignmetData {
   late final String subjectName;
   late final String topicName;
@@ -23,22 +25,22 @@ List<AssignmetData> assignList = [
 ];
 
 class Student {
-  static late String name;
-  static late String classes;
-  static late String birth;
+  static String name = '';
+  static String classes = '';
+  static String birth = '';
   static int numOutCourse = 0;
   static double averageScore = 9.8;
   static String regisNum = '2022-HUST-2609';
-  static late String studyYear;
+  static String studyYear = '';
 
   // ignore: non_constant_identifier_names
   static String student_img = 'assets/images/student.png';
   static String email = '';
-  static late String phonenumber;
-  static late String studentID;
-  static late String hometown;
-
-  static late String password;
+  static String phonenumber = '';
+  static String studentID = '';
+  static String hometown = '';
+  static String uid = '';
+  static String password = '';
 
   static void setEmailPassword(String email, String password) {
     Student.email = email;

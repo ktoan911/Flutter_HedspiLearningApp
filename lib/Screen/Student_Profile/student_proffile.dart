@@ -22,18 +22,16 @@ class StudentProfile extends StatelessWidget {
             onTap: () {
               //send report
             },
-            child: Container(
-              child: Row(children: [
-                const Icon(Icons.report_gmailerrorred_outlined),
-                const SizedBox(
-                  width: kDefaultPadding / 2,
-                ),
-                Text(
-                  'Report',
-                  style: Theme.of(context).textTheme.bodySmall,
-                )
-              ]),
-            ),
+            child: Row(children: [
+              const Icon(Icons.report_gmailerrorred_outlined),
+              const SizedBox(
+                width: kDefaultPadding / 2,
+              ),
+              Text(
+                'Report',
+                style: Theme.of(context).textTheme.bodySmall,
+              )
+            ]),
           )
         ],
       ),
@@ -140,45 +138,43 @@ class ProfileDetailLong extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        //crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: kTextLightColor, fontSize: 15.0),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      //crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: kTextLightColor, fontSize: 15.0),
+            ),
+            const SizeBoxOpt(high: kDefaultPadding / 2),
+            Text(
+              detail,
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: kTextBlackColor,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: const Divider(
+                //color: kTextLightColor,
+                thickness: 1,
               ),
-              const SizeBoxOpt(high: kDefaultPadding / 2),
-              Text(
-                detail,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: kTextBlackColor,
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 1.2,
-                child: const Divider(
-                  //color: kTextLightColor,
-                  thickness: 1,
-                ),
-              )
-            ],
-          ),
-          const Icon(
-            Icons.lock_outline,
-            size: 20,
-          )
-        ],
-      ),
+            )
+          ],
+        ),
+        const Icon(
+          Icons.lock_outline,
+          size: 20,
+        )
+      ],
     );
   }
 }
