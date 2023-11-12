@@ -87,9 +87,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           sizedBox,
                           GestureDetector(
                             onTap: () {
-                              Student.setEmailPassword(_emailController.text,
-                                  _passwordController.text);
                               if (_formKey.currentState!.validate()) {
+                                Student.setEmailPassword(
+                                    _emailController.text.trim(),
+                                    _passwordController.text.trim());
                                 Navigator.pushNamed(
                                     context, FillProfileScreen.routeName);
                               }

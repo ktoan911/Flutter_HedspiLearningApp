@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/AppData.dart';
@@ -69,11 +70,9 @@ class _FillProfileScreenState extends State<FillProfileScreen> {
               ),
               DefaultBtn(
                   onPress: () {
-                    // if (_formKey.currentState!.validate()) {
-                    //   _signUp(context);
-                    // }
-
-                    print(Student.email);
+                    if (_formKey.currentState!.validate()) {
+                      _signUp(context);
+                    }
                   },
                   title: 'SIGN UP',
                   icon: Icons.arrow_forward_sharp),
@@ -103,7 +102,7 @@ class ProfileFill extends StatelessWidget {
       ),
       child: TextFormField(
         onChanged: (value) {
-          updateStudent(title, value);
+          updateStudent(title, value.trim());
         },
         textAlign: TextAlign.start,
         keyboardType: TextInputType.emailAddress,
@@ -163,7 +162,37 @@ void _signUp(BuildContext context) async {
   User? user = await _auth.signUpWithEmailAndPassword(email, password);
 
   if (user != null) {
+    addUserDetail(
+        Student.name,
+        Student.birth,
+        Student.classes,
+        Student.hometown,
+        Student.phonenumber,
+        Student.studentID,
+        Student.student_img,
+        Student.studyYear);
     Navigator.pushNamedAndRemoveUntil(
         context, HomeScreen.routeName, (route) => false);
   } else {}
+}
+
+Future addUserDetail(
+    String name,
+    String birth,
+    String Class,
+    String hometown,
+    String phonenumber,
+    String studentID,
+    String studentImgLink,
+    String studyYear) async {
+  await FirebaseFirestore.instance.collection('UserProfile').add({
+    'name': name,
+    'birth': birth,
+    'class': Class,
+    'hometown': hometown,
+    'phonenumber': phonenumber,
+    'studentID': studentID,
+    //'student_img': studentImgLink,
+    'studyYear': studyYear,
+  });
 }
