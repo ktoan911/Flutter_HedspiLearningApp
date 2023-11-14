@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
-import 'package:hedspi_learningapp/Component/result_component.dart';
-import 'package:hedspi_learningapp/Result/result_data.dart';
+import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
+import 'package:hedspi_learningapp/Screen/Result/result_component.dart';
+import 'package:hedspi_learningapp/Screen/Result/add_result_screen.dart';
+import 'package:hedspi_learningapp/Screen/Result/result_data.dart';
 
-class ResultScreen extends StatelessWidget {
+class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key});
 
   static String routeName = '/resultScreen';
 
+  @override
+  State<ResultScreen> createState() => _ResultScreenState();
+}
+
+class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
     double result = SumScore(resultList);
@@ -31,14 +38,11 @@ class ResultScreen extends StatelessWidget {
               child: CustomPaint(
                 foregroundPainter: CircularPainter(
                     backgroundColor: Colors.white,
-                    lineColor: getGradeColor(double.parse(
-                            (result / (resultList.length * 10))
-                                .toStringAsFixed(2)) *
-                        10),
+                    lineColor: getGradeColor(result),
                     width: 30,
-                    percent: result / (resultList.length * 10)),
+                    percent: result / 4.0),
                 child: Center(
-                  child: Text('$result\n/\n${resultList.length * 10}',
+                  child: Text('$result\n/4.0',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -48,7 +52,7 @@ class ResultScreen extends StatelessWidget {
               ),
             ),
             Text(
-              'You are so ${getGrade(Student.averageScore)}!!',
+              'You are so ${getGrade(result)}!!',
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!
@@ -129,7 +133,9 @@ class ResultScreen extends StatelessWidget {
                                       height: 20,
                                       decoration: BoxDecoration(
                                           color: getGradeColor(
-                                              resultList[index].totalScore),
+                                              resultList[index].totalScore /
+                                                  10 *
+                                                  4),
                                           borderRadius: const BorderRadius.only(
                                               topLeft: Radius.circular(
                                                   kDefaultPadding),
@@ -139,7 +145,8 @@ class ResultScreen extends StatelessWidget {
                                   ],
                                 ),
                                 Text(
-                                  getGrade(resultList[index].totalScore),
+                                  getGrade(
+                                      resultList[index].totalScore / 10 * 4),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -156,32 +163,63 @@ class ResultScreen extends StatelessWidget {
               ),
             )
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            final ans = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => AddResultScreen(),
+              ),
+            );
+
+            if (ans != null) {
+              setState(() {
+                addUserResult(ans[2], ans[0], ans[1], Student.uid);
+                double tmp = 0;
+                int temp = 0;
+                if (double.tryParse(ans[1]) != null) {
+                  tmp = double.parse(ans[1]);
+                }
+                if (int.tryParse(ans[2]) != null) {
+                  temp = int.parse(ans[2]);
+                }
+                resultList.add(ResultData(ans[0], tmp, temp));
+              });
+            }
+          },
+          backgroundColor: kSecondaryColor.withOpacity(0.9),
+          child: const Icon(Icons.add),
         ));
   }
 }
 
 String getGrade(double score) {
-  if (score >= 9) {
+  if (score >= 3.6) {
     return 'Excelent';
-  } else if (score >= 8) {
+  } else if (score >= 3.2) {
     return 'Very Good';
-  } else if (score >= 7) {
+  } else if (score >= 2.5) {
     return 'Good';
-  } else if (score >= 5) {
+  } else if (score >= 2.0) {
     return 'Graded fairly';
-  } else {
+  } else if (score >= 1.5) {
+    return 'Not good';
+  } else if (score >= 1.0) {
     return 'Bad';
+  } else {
+    return 'Very Bad';
   }
 }
 
 Color getGradeColor(double score) {
-  if (score >= 9) {
+  if (score >= 3.6) {
     return Colors.green;
-  } else if (score >= 8) {
+  } else if (score >= 3.2) {
     return Colors.lightGreen;
-  } else if (score >= 7) {
+  } else if (score >= 2.5) {
     return Colors.yellow;
-  } else if (score >= 5) {
+  } else if (score >= 1.5) {
     return Colors.orange;
   } else {
     return Colors.red;

@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
-import 'package:hedspi_learningapp/Note/note_screen.dart';
-import 'package:hedspi_learningapp/Result/result_data.dart';
-import 'package:hedspi_learningapp/Result/result_screen.dart';
+import 'package:hedspi_learningapp/Screen/Dictionary/dictionary.dart';
+import 'package:hedspi_learningapp/Screen/Note/note_screen.dart';
+import 'package:hedspi_learningapp/Screen/Result/result_data.dart';
+import 'package:hedspi_learningapp/Screen/Result/result_screen.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_screen.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/Widget/Student_Data.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
-import 'package:hedspi_learningapp/TimeTable/timetabl_screen.dart';
+import 'package:hedspi_learningapp/Screen/TimeTable/timetabl_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
@@ -38,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> fetchData() async {
     // Thực hiện tải dữ liệu
     await Future.delayed(
-        const Duration(seconds: 2)); // Giả sử là quá trình tải mất 2 giây
-    return setDataFirebaseByUid(
+        const Duration(seconds: 3)); // Giả sử là quá trình tải mất 2 giây
+    return initialLoadHomePage(
         Student.uid); // Thay bằng hàm thực hiện tải dữ liệu của bạn
   }
 
@@ -58,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return Text('Lỗi: ${snapshot.error}');
             } else {
               // Trạng thái hoàn thành, dữ liệu đã tải xong
+              Student.averageScore = SumScore(resultList);
               return const homePage();
             }
           },
@@ -115,7 +117,7 @@ class homePage extends StatelessWidget {
                     Navigator.pushNamed(context, ResultScreen.routeName);
                   },
                   title: 'Average Score',
-                  data: '${SumScore(resultList)} / ${resultList.length * 10}',
+                  data: '${Student.averageScore} / 4.0',
                 ),
               ],
             )
@@ -160,10 +162,13 @@ class homePage extends StatelessWidget {
                           },
                           icon: calenda_icon,
                           title: 'TimeTable'),
-                      const HomeOptionSelect(
-                          onPress: null,
+                      HomeOptionSelect(
+                          onPress: () {
+                            Navigator.pushNamed(
+                                context, DictionaryScreen.routeName);
+                          },
                           icon: translate_icon,
-                          title: 'Translation'),
+                          title: 'Dictionary'),
                     ],
                   ),
                   const SizeBoxOpt(high: kDefaultPadding / 2),
@@ -174,7 +179,7 @@ class homePage extends StatelessWidget {
                           onPress: () {
                             _launchURL(Uri.parse('https://flutter.dev'));
                           },
-                          icon: resume_icon,
+                          icon: event_icon,
                           title: 'Resume'),
                       HomeOptionSelect(
                           onPress: () {

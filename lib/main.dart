@@ -4,13 +4,13 @@ import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/routes.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'Firebase/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  ); 
+  );
   runApp(const MyApp());
 }
 

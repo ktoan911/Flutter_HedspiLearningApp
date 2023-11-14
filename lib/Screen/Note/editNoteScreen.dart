@@ -2,8 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
-
-import 'package:hedspi_learningapp/Note/note_data.dart';
+import 'package:hedspi_learningapp/Screen/Note/note_data.dart';
 
 class EditScreen extends StatefulWidget {
   final Note? note;

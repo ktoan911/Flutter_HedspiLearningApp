@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/Note/note_screen.dart';
-import 'package:hedspi_learningapp/Result/result_screen.dart';
+import 'package:hedspi_learningapp/Screen/Dictionary/dictionary.dart';
+import 'package:hedspi_learningapp/Screen/Note/note_screen.dart';
+import 'package:hedspi_learningapp/Screen/Result/add_result_screen.dart';
+import 'package:hedspi_learningapp/Screen/Result/result_screen.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_screen.dart';
 import 'package:hedspi_learningapp/Screen/FillProifileScreen/new_profile_screen.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
@@ -8,7 +10,7 @@ import 'package:hedspi_learningapp/Screen/Register_Screen/register_screen.dart';
 import 'package:hedspi_learningapp/Screen/Student_Profile/student_proffile.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/Screen/Splash/splash_screen.dart';
-import 'package:hedspi_learningapp/TimeTable/timetabl_screen.dart';
+import 'package:hedspi_learningapp/Screen/TimeTable/timetabl_screen.dart';
 
 Map<String, WidgetBuilder> routes = {
   // SplashScreen.routeName: (context) => const SplashScreen(),
@@ -22,4 +24,6 @@ Map<String, WidgetBuilder> routes = {
   TimeTable.routeName: (context) => const TimeTable(),
   RegisterScreen.routeName: (context) => const RegisterScreen(),
   FillProfileScreen.routeName: (context) => const FillProfileScreen(),
+  AddResultScreen.routeName: (context) => AddResultScreen(),
+  DictionaryScreen.routeName: (context) => const DictionaryScreen(),
 };

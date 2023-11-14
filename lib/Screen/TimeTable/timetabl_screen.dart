@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
-import 'package:hedspi_learningapp/TimeTable/timetable_data.dart';
+import 'package:hedspi_learningapp/Screen/TimeTable/timetable_data.dart';
 
 class TimeTable extends StatelessWidget {
   const TimeTable({super.key});
