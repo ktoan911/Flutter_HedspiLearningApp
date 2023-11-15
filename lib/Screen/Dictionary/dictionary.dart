@@ -38,6 +38,7 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
             });
           },
         ),
+        //check progress
         progress < 1.0
             ? SizedBox(
                 height: 3.0,

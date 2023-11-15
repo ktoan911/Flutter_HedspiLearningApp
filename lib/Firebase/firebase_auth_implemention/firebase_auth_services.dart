@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hedspi_learningapp/AppData.dart';
 
 class FireBaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -14,6 +15,7 @@ class FireBaseAuthService {
       if (e.code == 'weak-password') {
         return null;
       } else if (e.code == 'email-already-in-use') {
+        errorLogin = 'Email already in use! Please try again';
         return null;
       }
     } catch (e) {
@@ -30,6 +32,7 @@ class FireBaseAuthService {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
       } else {
+        errorLogin = 'Email or password is incorrect';
         print(e);
       }
     }

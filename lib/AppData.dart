@@ -47,3 +47,5 @@ class Student {
     Student.password = password;
   }
 }
+
+String errorLogin = '';

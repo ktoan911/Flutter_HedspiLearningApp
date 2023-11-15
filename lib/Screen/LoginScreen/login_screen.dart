@@ -248,7 +248,15 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushNamedAndRemoveUntil(
           context, HomeScreen.routeName, (route) => false);
     } else {
-      print('Login failed');
+      var mySnackBar = SnackBar(
+        backgroundColor: kPrimaryColor,
+        content: Text(
+          errorLogin,
+          style: const TextStyle(color: kTextWhiteColor),
+        ),
+        duration: const Duration(seconds: 2),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(mySnackBar);
     }
   }
 }

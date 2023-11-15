@@ -277,8 +277,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (value == null || value.isEmpty) {
           return 'Please confirm your password';
           //if dose not match the regex pattern
-        } else if (value.length < 6) {
-          return 'Minimum 6 characters required';
         } else if (value != passwordFill) {
           return 'Password does not match';
         }
