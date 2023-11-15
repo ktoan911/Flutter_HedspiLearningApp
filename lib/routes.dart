@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hedspi_learningapp/Ask/Ask_screen.dart';
 import 'package:hedspi_learningapp/Screen/Dictionary/dictionary.dart';
 import 'package:hedspi_learningapp/Screen/Note/note_screen.dart';
 import 'package:hedspi_learningapp/Screen/Result/add_result_screen.dart';
@@ -26,4 +27,5 @@ Map<String, WidgetBuilder> routes = {
   FillProfileScreen.routeName: (context) => const FillProfileScreen(),
   AddResultScreen.routeName: (context) => AddResultScreen(),
   DictionaryScreen.routeName: (context) => const DictionaryScreen(),
+  AskScreen.routeName: (context) => const AskScreen(),
 };

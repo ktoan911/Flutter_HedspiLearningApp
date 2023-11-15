@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hedspi_learningapp/AppData.dart';
+import 'package:hedspi_learningapp/Ask/Ask_screen.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Screen/Dictionary/dictionary.dart';
 import 'package:hedspi_learningapp/Screen/Note/note_screen.dart';
@@ -141,8 +142,12 @@ class homePage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const HomeOptionSelect(
-                          onPress: null, icon: ask_icon, title: 'Ask'),
+                      HomeOptionSelect(
+                          onPress: () {
+                            Navigator.pushNamed(context, AskScreen.routeName);
+                          },
+                          icon: ask_icon,
+                          title: 'Ask with Bard'),
                       HomeOptionSelect(
                           onPress: () {
                             Navigator.pushNamed(
@@ -177,10 +182,10 @@ class homePage extends StatelessWidget {
                     children: [
                       HomeOptionSelect(
                           onPress: () {
-                            _launchURL(Uri.parse('https://flutter.dev'));
+                            _launchURL(Uri.parse('https://ctt.hust.edu.vn/'));
                           },
                           icon: event_icon,
-                          title: 'Resume'),
+                          title: 'CTT HUST'),
                       HomeOptionSelect(
                           onPress: () {
                             Navigator.pushNamed(context, NoteScreen.routeName);
