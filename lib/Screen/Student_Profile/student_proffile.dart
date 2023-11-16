@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
+import 'package:hedspi_learningapp/Screen/Result/result_data.dart';
 
 class StudentProfile extends StatelessWidget {
   const StudentProfile({super.key});
@@ -87,7 +88,7 @@ class StudentProfile extends StatelessWidget {
               ),
               ProfileDetailShort(
                 title: 'Outstanding courses',
-                detail: Student.numOutCourse.toString(),
+                detail: numberOutstandingCourse(resultList).toString(),
               ),
             ]),
             Row(children: [

@@ -1,7 +1,13 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hedspi_learningapp/AppData.dart';
+import 'package:hedspi_learningapp/Component/constant.dart';
+import 'package:hedspi_learningapp/Component/local_storage.dart';
+import 'package:hedspi_learningapp/Firebase/firebase_auth_implemention/firebase_auth_services.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
+import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -17,8 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 5), () {
-      Navigator.pushNamedAndRemoveUntil(
-          context, LoginScreen.routeName, (route) => false);
+      checkLogin(context);
     });
   }
 
@@ -35,5 +40,28 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
+  }
+}
+
+void checkLogin(BuildContext context) async {
+  await SecureStorage.checkIsLogin(DataSave.isLoginKey);
+  if (DataSave.isLoginSave == true) {
+    autoLogin(context, DataSave.emailSave, DataSave.passwordSave);
+  } else {
+    Navigator.pushNamedAndRemoveUntil(
+        context, LoginScreen.routeName, (route) => false);
+  }
+}
+
+void autoLogin(BuildContext context, String email, String password) async {
+  final FireBaseAuthService auth = FireBaseAuthService();
+  User? user = await auth.logInWithEmailAndPassword(email, password);
+  if (user != null) {
+    Student.uid = user.uid;
+    Navigator.pushNamedAndRemoveUntil(
+        context, HomeScreen.routeName, (route) => false);
+  } else {
+    Navigator.pushNamedAndRemoveUntil(
+        context, LoginScreen.routeName, (route) => false);
   }
 }

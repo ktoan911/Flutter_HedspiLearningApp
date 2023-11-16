@@ -16,6 +16,16 @@ int NumberCredit(List<ResultData> resultList) {
   return sumCredit;
 }
 
+int numberOutstandingCourse(List<ResultData> resultList) {
+  int count = 0;
+  for (int i = 0; i < resultList.length; i++) {
+    if (resultList[i].totalScore < 4) {
+      count++;
+    }
+  }
+  return count;
+}
+
 double SumScore(List<ResultData> resultList) {
   double sumMark = 0;
   for (int i = 0; i < resultList.length; i++) {

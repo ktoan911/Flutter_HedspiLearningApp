@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Component/custom_btn.dart';
+import 'package:hedspi_learningapp/Component/local_storage.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/Firebase/firebase_auth_implemention/firebase_auth_services.dart';
@@ -165,6 +166,8 @@ void _signUp(BuildContext context) async {
 
   if (user != null) {
     Student.uid = user.uid;
+    Student.email = email;
+    setDataLoginCurrent(true, email, password);
     addUserDetail(
         Student.name,
         Student.birth,

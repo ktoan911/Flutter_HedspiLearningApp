@@ -4,7 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hedspi_learningapp/AppData.dart';
-import 'package:hedspi_learningapp/Ask/Ask_screen.dart';
+import 'package:hedspi_learningapp/Component/local_storage.dart';
+import 'package:hedspi_learningapp/Screen/Ask/Ask_screen.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Screen/Dictionary/dictionary.dart';
 import 'package:hedspi_learningapp/Screen/Note/note_screen.dart';
@@ -203,6 +204,7 @@ class homePage extends StatelessWidget {
                       HomeOptionSelect(
                           onPress: () {
                             FirebaseAuth.instance.signOut();
+                            setDataLoginCurrent(false, '', '');
                             Navigator.pushNamedAndRemoveUntil(context,
                                 LoginScreen.routeName, (route) => false);
                           },

@@ -10,6 +10,8 @@ const Color kContainerColor = Color(0xFF777777);
 const Color kOtherColor = Color(0xFFF4F6F7);
 const Color kTextLightColor = Color(0xFFACACAC);
 const Color kErrorBorderColor = Color(0xFFB00020);
+const Color kDarkModeColor = Color(0xFF000000);
+const Color kLightModeColor = Color(0xFF345FB4);
 
 const kDefaultPadding = 20.0;
 
@@ -76,4 +78,14 @@ class FirebaseStringConst {
   static const ProfileCollection = 'UserProfile';
   static const NoteCollection = 'Note';
   static const ResultCollection = 'Result';
+}
+
+class DataSave {
+  static const String emailKey = 'email';
+  static const String passwordKey = 'password';
+  static const String isLoginKey = 'isLogin';
+
+  static String emailSave = '';
+  static String passwordSave = '';
+  static bool isLoginSave = false;
 }

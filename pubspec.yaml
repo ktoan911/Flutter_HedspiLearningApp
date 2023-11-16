@@ -43,6 +43,7 @@ dependencies:
   url_launcher: ^6.2.1
   intl: ^0.18.1
   flutter_inappwebview: ^5.8.0
+  shared_preferences: ^2.2.2
   
 
 dev_dependencies:

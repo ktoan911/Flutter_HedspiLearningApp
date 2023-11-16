@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Component/custom_btn.dart';
+import 'package:hedspi_learningapp/Component/local_storage.dart';
 import 'package:hedspi_learningapp/Screen/Register_Screen/register_screen.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
@@ -82,7 +83,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       DefaultBtn(
                           onPress: () {
                             if (_formKey.currentState!.validate()) {
-                              _logIn(context);
+                              _logIn(context, _emailController.text,
+                                  _passwordController.text);
                             }
                           },
                           title: 'SIGN IN',
@@ -238,13 +240,16 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _logIn(BuildContext context) async {
-    String email = _emailController.text;
-    String password = _passwordController.text;
+  void _logIn(
+      BuildContext context, String emailText, String passwwordText) async {
+    String email = emailText;
+    String password = passwwordText;
     User? user = await _auth.logInWithEmailAndPassword(email, password);
 
     if (user != null) {
       Student.uid = user.uid;
+      Student.email = email;
+      setDataLoginCurrent(true, email, password);
       Navigator.pushNamedAndRemoveUntil(
           context, HomeScreen.routeName, (route) => false);
     } else {

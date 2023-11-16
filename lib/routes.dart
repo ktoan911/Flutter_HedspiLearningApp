@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/Ask/Ask_screen.dart';
+import 'package:hedspi_learningapp/Screen/Ask/Ask_screen.dart';
 import 'package:hedspi_learningapp/Screen/Dictionary/dictionary.dart';
 import 'package:hedspi_learningapp/Screen/Note/note_screen.dart';
+import 'package:hedspi_learningapp/Screen/Register_Screen/FillProifileScreen/new_profile_screen.dart';
 import 'package:hedspi_learningapp/Screen/Result/add_result_screen.dart';
 import 'package:hedspi_learningapp/Screen/Result/result_screen.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_screen.dart';
-import 'package:hedspi_learningapp/Screen/FillProifileScreen/new_profile_screen.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 import 'package:hedspi_learningapp/Screen/Register_Screen/register_screen.dart';
 import 'package:hedspi_learningapp/Screen/Student_Profile/student_proffile.dart';
