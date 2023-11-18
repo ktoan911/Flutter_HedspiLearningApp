@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/AppData.dart';
+import 'package:hedspi_learningapp/ProfileData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Screen/Note/editNoteScreen.dart';
@@ -164,18 +164,24 @@ class _NoteScreenState extends State<NoteScreen> {
                                 setState(() {
                                   int originalIndex =
                                       noteList.indexOf(filterNotes[index]);
+                                  DateTime editTime = DateTime.now();
+                                  updateNoteFromFirebaseByUid(
+                                      result[2],
+                                      editTime.toIso8601String(),
+                                      result[0],
+                                      result[1]);
 
                                   noteList[originalIndex] = Note(
-                                      id: noteList[originalIndex].id,
+                                      id: result[2],
                                       title: result[0],
                                       content: result[1],
-                                      modifiedTime: DateTime.now());
+                                      modifiedTime: editTime);
 
                                   filterNotes[index] = Note(
-                                      id: filterNotes[index].id,
+                                      id: result[2],
                                       title: result[0],
                                       content: result[1],
-                                      modifiedTime: DateTime.now());
+                                      modifiedTime: editTime);
                                 });
                               }
                             },

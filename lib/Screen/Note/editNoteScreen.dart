@@ -89,8 +89,18 @@ class _EditScreenState extends State<EditScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.pop(
-                context, [_titleController.text, _contentController.text]);
+            if (widget.note != null) {
+              Navigator.pop(context, [
+                _titleController.text,
+                _contentController.text,
+                widget.note!.id
+              ]);
+            } else {
+              Navigator.pop(context, [
+                _titleController.text,
+                _contentController.text,
+              ]);
+            }
           },
           elevation: 10,
           backgroundColor: kSecondaryColor,

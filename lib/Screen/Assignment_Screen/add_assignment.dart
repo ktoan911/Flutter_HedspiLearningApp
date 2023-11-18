@@ -2,35 +2,37 @@
 
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
-import 'package:hedspi_learningapp/Screen/Result/result_data.dart';
+import 'package:intl/intl.dart';
 
 TextEditingController _subjectnameController = TextEditingController();
-TextEditingController _totalscoreController = TextEditingController();
-TextEditingController _creditController = TextEditingController();
+TextEditingController _topicnameController = TextEditingController();
+TextEditingController _noteAssignmentController = TextEditingController();
+TextEditingController _deadlineController = TextEditingController();
 
-class AddResultScreen extends StatefulWidget {
-  AddResultScreen({super.key, this.resultData});
+DateTime _deadline = DateTime.now();
+
+class AddAssignmentScreen extends StatefulWidget {
+  const AddAssignmentScreen({super.key});
 
   static const String routeName = "/addResult";
-  ResultData? resultData;
 
   @override
-  State<AddResultScreen> createState() => _AddResultScreenState();
+  State<AddAssignmentScreen> createState() => _AddAssignmentScreenState();
 }
 
-class _AddResultScreenState extends State<AddResultScreen> {
+class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    if (widget.resultData != null) {
-      _subjectnameController =
-          TextEditingController(text: widget.resultData!.subjectName);
-      _totalscoreController =
-          TextEditingController(text: widget.resultData!.totalScore.toString());
-      _creditController = TextEditingController(
-          text: widget.resultData!.numbercredit.toString());
-    }
+    // if (widget.resultData != null) {
+    //   _subjectnameController =
+    //       TextEditingController(text: widget.resultData!.subjectName);
+    //   _topicnameController =
+    //       TextEditingController(text: widget.resultData!.totalScore.toString());
+    //   _deadlineController = TextEditingController(
+    //       text: widget.resultData!.numbercredit.toString());
+    // }
     super.initState();
   }
 
@@ -60,17 +62,20 @@ class _AddResultScreenState extends State<AddResultScreen> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        ProfileFill(
+                        FormFill(
                             title: 'Subject Name',
                             controller: _subjectnameController),
                         sizedBox,
-                        ProfileFillNumDouble(
-                            title: 'Total Score',
-                            controller: _totalscoreController),
+                        FormFill(
+                            title: 'Topic Name',
+                            controller: _topicnameController),
                         sizedBox,
-                        ProfileFillNumInt(
-                            title: 'Number of Credits',
-                            controller: _creditController),
+                        FormFill(
+                            title: 'Note',
+                            controller: _noteAssignmentController),
+                        sizedBox,
+                        FormFillDate(
+                            controller: _deadlineController, title: "Deadline"),
                         const SizeBoxOpt(high: kDefaultPadding * 20),
                       ],
                     ),
@@ -86,8 +91,9 @@ class _AddResultScreenState extends State<AddResultScreen> {
           if (_formKey.currentState!.validate()) {
             Navigator.pop(context, [
               _subjectnameController.text,
-              _totalscoreController.text,
-              _creditController.text,
+              _topicnameController.text,
+              _deadline.toIso8601String(),
+              _noteAssignmentController.text,
             ]);
           }
         },
@@ -99,8 +105,8 @@ class _AddResultScreenState extends State<AddResultScreen> {
   }
 }
 
-class ProfileFill extends StatelessWidget {
-  ProfileFill({super.key, required this.title, required this.controller});
+class FormFill extends StatelessWidget {
+  FormFill({super.key, required this.title, required this.controller});
 
   final String title;
   late TextEditingController controller;
@@ -149,9 +155,8 @@ class ProfileFill extends StatelessWidget {
   }
 }
 
-class ProfileFillNumDouble extends StatelessWidget {
-  ProfileFillNumDouble(
-      {super.key, required this.title, required this.controller});
+class FormFillDate extends StatelessWidget {
+  FormFillDate({super.key, required this.title, required this.controller});
 
   final String title;
   late TextEditingController controller;
@@ -179,7 +184,7 @@ class ProfileFillNumDouble extends StatelessWidget {
         textAlign: TextAlign.start,
         style: const TextStyle(
             color: kTextBlackColor,
-            fontSize: 17.0,
+            fontSize: 15.0,
             fontWeight: FontWeight.w300),
         decoration: InputDecoration(
           labelText: title,
@@ -187,69 +192,25 @@ class ProfileFillNumDouble extends StatelessWidget {
           floatingLabelBehavior: FloatingLabelBehavior.always,
           isDense: true,
         ),
-        validator: (value) {
-          //FORM VALIDATION
-          if (value == null || value.isEmpty) {
-            return 'Please enter your $title';
-            //if dose not match the regex pattern
+        onTap: () async {
+          FocusScope.of(context).requestFocus(FocusNode());
+
+          DateTime? date = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2010),
+              lastDate: DateTime(2050));
+
+          if (date != null) {
+            controller.text = DateFormat('MM/ dd / yyyy').format(date);
+            _deadline = date;
           }
-          double? tempVal = double.tryParse(value);
-          if (tempVal == null || tempVal > 10 || tempVal < 0) {
-            return 'Please enter a valid number for $title';
-          }
-          return null;
         },
-      ),
-    );
-  }
-}
-
-class ProfileFillNumInt extends StatelessWidget {
-  ProfileFillNumInt({super.key, required this.title, required this.controller});
-
-  final String title;
-  late TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: kDefaultPadding,
-        right: kDefaultPadding,
-      ),
-      padding: const EdgeInsets.all(kDefaultPadding),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(kDefaultPadding),
-          color: kOtherColor,
-          boxShadow: const [
-            BoxShadow(
-              color: kTextLightColor,
-              blurRadius: 2,
-              // changes position of shadow
-            ),
-          ]),
-      child: TextFormField(
-        controller: controller,
-        textAlign: TextAlign.start,
-        style: const TextStyle(
-            color: kTextBlackColor,
-            fontSize: 17.0,
-            fontWeight: FontWeight.w300),
-        decoration: InputDecoration(
-          labelText: title,
-          labelStyle: const TextStyle(fontSize: 20),
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          isDense: true,
-        ),
         validator: (value) {
           //FORM VALIDATION
           if (value == null || value.isEmpty) {
             return 'Please enter your $title';
             //if dose not match the regex pattern
-          }
-
-          if (int.tryParse(value) == null) {
-            return 'Please enter a valid number for $title';
           }
           return null;
         },

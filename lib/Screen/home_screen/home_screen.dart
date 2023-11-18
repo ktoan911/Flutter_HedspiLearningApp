@@ -3,7 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hedspi_learningapp/AppData.dart';
+import 'package:hedspi_learningapp/ProfileData.dart';
 import 'package:hedspi_learningapp/Component/local_storage.dart';
 import 'package:hedspi_learningapp/Screen/Ask/ask_screen.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
@@ -79,143 +79,156 @@ class homePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height / 2.5,
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Column(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 2.5,
+            padding: const EdgeInsets.all(kDefaultPadding),
+            child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  StudentName(
-                    name: Student.name,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        StudentName(
+                          name: Student.name,
+                        ),
+                        const SizeBoxOpt(high: kDefaultPadding / 2),
+                        StudentInfo(
+                          classgrade: Student.classes,
+                        ),
+                        const SizeBoxOpt(high: kDefaultPadding / 2),
+                        StudentYearLearning(year: Student.studyYear)
+                      ]),
+                  const SizeBoxOpt(high: kDefaultPadding / 4),
+                  StudentPicture(
+                    studentimg: Student.student_img,
                   ),
-                  const SizeBoxOpt(high: kDefaultPadding / 2),
-                  StudentInfo(
-                    classgrade: Student.classes,
+                ],
+              ),
+              sizedBox,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const HighLightInfo(
+                    title: 'Attendance',
+                    data: '100%',
                   ),
-                  const SizeBoxOpt(high: kDefaultPadding / 2),
-                  StudentYearLearning(year: Student.studyYear)
-                ]),
-                const SizeBoxOpt(high: kDefaultPadding / 4),
-                StudentPicture(
-                  studentimg: Student.student_img,
-                ),
-              ],
-            ),
-            sizedBox,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const HighLightInfo(
-                  title: 'Attendance',
-                  data: '100%',
-                ),
-                HighLightInfo(
-                  onPress: () {
-                    Navigator.pushNamed(context, ResultScreen.routeName);
-                  },
-                  title: 'Average Score',
-                  data: '${Student.averageScore} / 4.0',
-                ),
-              ],
-            )
-          ]),
-        ),
-        //other will use all the remaining height of screen
-        Expanded(
-          child: Container(
-              color: Colors.transparent,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                  color: kOtherColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(kDefaultPadding * 3),
-                    topRight: Radius.circular(kDefaultPadding * 3),
+                  HighLightInfo(
+                    onPress: () {
+                      Navigator.pushNamed(context, ResultScreen.routeName);
+                    },
+                    title: 'Average Score',
+                    data: '${Student.averageScore} / 4.0',
                   ),
-                ),
-                child:
-                    ListView(physics: const BouncingScrollPhysics(), children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      HomeOptionSelect(
-                          onPress: () {
-                            Navigator.pushNamed(context, AskScreen.routeName);
-                          },
-                          icon: ask_icon,
-                          title: 'Ask with Bard'),
-                      HomeOptionSelect(
-                          onPress: () {
-                            Navigator.pushNamed(
-                                context, AssignmentScreen.routeName);
-                          },
-                          icon: assignment_icon,
-                          title: 'Assignment'),
-                    ],
+                ],
+              )
+            ]),
+          ),
+          //other will use all the remaining height of screen
+          Expanded(
+            child: Container(
+                color: Colors.transparent,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const BoxDecoration(
+                    color: kOtherColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(kDefaultPadding * 3),
+                      topRight: Radius.circular(kDefaultPadding * 3),
+                    ),
                   ),
-                  const SizeBoxOpt(high: kDefaultPadding / 2),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      HomeOptionSelect(
-                          onPress: () {
-                            Navigator.pushNamed(context, TimeTable.routeName);
-                          },
-                          icon: calenda_icon,
-                          title: 'TimeTable'),
-                      HomeOptionSelect(
-                          onPress: () {
-                            Navigator.pushNamed(
-                                context, DictionaryScreen.routeName);
-                          },
-                          icon: translate_icon,
-                          title: 'Dictionary'),
-                    ],
-                  ),
-                  const SizeBoxOpt(high: kDefaultPadding / 2),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      HomeOptionSelect(
-                          onPress: () {
-                            _launchURL(Uri.parse('https://ctt.hust.edu.vn/'));
-                          },
-                          icon: event_icon,
-                          title: 'CTT HUST'),
-                      HomeOptionSelect(
-                          onPress: () {
-                            Navigator.pushNamed(context, NoteScreen.routeName);
-                          },
-                          icon: note_icon,
-                          title: 'Note'),
-                    ],
-                  ),
-                  const SizeBoxOpt(high: kDefaultPadding / 2),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const HomeOptionSelect(
-                          onPress: null, icon: setting_icon, title: 'Setting'),
-                      HomeOptionSelect(
-                          onPress: () {
-                            FirebaseAuth.instance.signOut();
-                            setDataLoginCurrent(false, '', '');
-                            Navigator.pushNamedAndRemoveUntil(context,
-                                LoginScreen.routeName, (route) => false);
-                          },
-                          icon: logout_icon,
-                          title: 'Log out'),
-                    ],
-                  ),
-                ]),
-              )),
-        )
-      ],
+                  child: ListView(
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            HomeOptionSelect(
+                                onPress: () {
+                                  Navigator.pushNamed(
+                                      context, AskScreen.routeName);
+                                },
+                                icon: ask_icon,
+                                title: 'Ask with Bard'),
+                            HomeOptionSelect(
+                                onPress: () {
+                                  Navigator.pushNamed(
+                                      context, AssignmentScreen.routeName);
+                                },
+                                icon: assignment_icon,
+                                title: 'Assignment'),
+                          ],
+                        ),
+                        const SizeBoxOpt(high: kDefaultPadding / 2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            HomeOptionSelect(
+                                onPress: () {
+                                  Navigator.pushNamed(
+                                      context, TimeTable.routeName);
+                                },
+                                icon: calenda_icon,
+                                title: 'TimeTable'),
+                            HomeOptionSelect(
+                                onPress: () {
+                                  Navigator.pushNamed(
+                                      context, DictionaryScreen.routeName);
+                                },
+                                icon: translate_icon,
+                                title: 'Dictionary'),
+                          ],
+                        ),
+                        const SizeBoxOpt(high: kDefaultPadding / 2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            HomeOptionSelect(
+                                onPress: () {
+                                  _launchURL(
+                                      Uri.parse('https://ctt.hust.edu.vn/'));
+                                },
+                                icon: event_icon,
+                                title: 'CTT HUST'),
+                            HomeOptionSelect(
+                                onPress: () {
+                                  Navigator.pushNamed(
+                                      context, NoteScreen.routeName);
+                                },
+                                icon: note_icon,
+                                title: 'Note'),
+                          ],
+                        ),
+                        const SizeBoxOpt(high: kDefaultPadding / 2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            const HomeOptionSelect(
+                                onPress: null,
+                                icon: setting_icon,
+                                title: 'Setting'),
+                            HomeOptionSelect(
+                                onPress: () {
+                                  FirebaseAuth.instance.signOut();
+                                  setDataLoginCurrent(false, '', '');
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      LoginScreen.routeName, (route) => false);
+                                },
+                                icon: logout_icon,
+                                title: 'Log out'),
+                          ],
+                        ),
+                      ]),
+                )),
+          )
+        ],
+      ),
     );
   }
 }

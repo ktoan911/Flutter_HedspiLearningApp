@@ -1,8 +1,9 @@
 // ignore_for_file: file_names, non_constant_identifier_names, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hedspi_learningapp/AppData.dart';
+import 'package:hedspi_learningapp/ProfileData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
+import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_data.dart';
 import 'package:hedspi_learningapp/Screen/Note/note_data.dart';
 import 'package:hedspi_learningapp/Screen/Result/result_data.dart';
 
@@ -46,6 +47,28 @@ Future addUserNote(
     'datetime': datetime,
     'title': title,
     'content': content,
+    'uid': uid,
+  });
+}
+
+Future addUserAssignment(
+  String subjectname,
+  String topicname,
+  DateTime deadline,
+  String note,
+  bool isdone,
+  String assignmentID,
+  String uid,
+) async {
+  await FirebaseFirestore.instance
+      .collection(FirebaseStringConst.AssignmentCollection)
+      .add({
+    'subjectname': subjectname,
+    'topicname': topicname,
+    'deadline': deadline.toIso8601String(),
+    'note': note,
+    'isdone': isdone ? 1 : 0,
+    'id': assignmentID,
     'uid': uid,
   });
 }
@@ -138,6 +161,49 @@ Future<void> deleteNoteFromFirebaseByNoteId(String noteID) async {
   }
 }
 
+Future<void> updateNoteFromFirebaseByUid(
+    String noteid, String datetime, String title, String newNote) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseStringConst.NoteCollection)
+        .where('id', isEqualTo: noteid)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      await querySnapshot.docs.first.reference.update({
+        'datetime': datetime,
+        'title': title,
+        'content': newNote,
+      });
+    } else {
+      // Không tìm thấy dữ liệu
+      print("Không tìm thấy dữ liệu với noteid $noteid");
+    }
+  } catch (e) {
+    print("Lỗi khi tìm kiếm dữ liệu note : $e");
+  }
+}
+
+Future<void> updateAssignmentFromFirebaseByUid(String id, bool isdone) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseStringConst.AssignmentCollection)
+        .where('id', isEqualTo: id)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      await querySnapshot.docs.first.reference.update({
+        'isdone': isdone ? 1 : 0,
+      });
+    } else {
+      // Không tìm thấy dữ liệu
+      print("Không tìm thấy dữ liệu với assignid $id");
+    }
+  } catch (e) {
+    print("Lỗi khi tìm kiếm dữ liệu assignment : $e");
+  }
+}
+
 Future<void> deleteResultFromFirebaseByResultId(String resultID) async {
   try {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -190,8 +256,42 @@ Future<void> getResultFromUid(String uid) async {
   }
 }
 
+Future<void> getAssignmentFromUid(String uid) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseStringConst.AssignmentCollection)
+        .where('uid', isEqualTo: uid)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      assignList.clear();
+      // Dữ liệu được tìm thấy
+      for (QueryDocumentSnapshot document in querySnapshot.docs) {
+        // Truy cập dữ liệu từ mỗi tài liệu
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        DateTime tmp = DateTime.now();
+
+        if (DateTime.tryParse(data['deadline']) != null) {
+          tmp = DateTime.parse(data['deadline']);
+        }
+
+        bool temp = (data['isdone'] == 1 ? true : false);
+
+        assignList.add(AssignmetData(data['subjectname'], data['topicname'],
+            tmp, data['note'], temp, data['id']));
+      }
+    } else {
+      // Không tìm thấy dữ liệu
+      print("Không tìm thấy dữ liệu với uid $uid");
+    }
+  } catch (e) {
+    print("Lỗi khi tìm kiếm dữ liệu assignment: $e");
+  }
+}
+
 Future<void> initialLoadHomePage(String uid) async {
   await setDataFirebaseByUid(uid);
   await getResultFromUid(uid);
   await getNoteFromFirebaseByUid(uid);
+  await getAssignmentFromUid(uid);
 }

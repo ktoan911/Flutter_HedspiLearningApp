@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hedspi_learningapp/AppData.dart';
+import 'package:hedspi_learningapp/ProfileData.dart';
 
 class FireBaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

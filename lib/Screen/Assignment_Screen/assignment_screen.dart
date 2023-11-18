@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
+import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
+import 'package:hedspi_learningapp/ProfileData.dart';
+import 'package:hedspi_learningapp/Screen/Assignment_Screen/add_assignment.dart';
+import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_data.dart';
+import 'package:intl/intl.dart';
 
-class AssignmentScreen extends StatelessWidget {
+class AssignmentScreen extends StatefulWidget {
   const AssignmentScreen({Key? key}) : super(key: key);
 
   static String routeName = '/assignment_screen ';
 
+  @override
+  State<AssignmentScreen> createState() => _AssignmentScreenState();
+}
+
+class _AssignmentScreenState extends State<AssignmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,6 +26,48 @@ class AssignmentScreen extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   fontSize: 20)),
           centerTitle: true,
+          actions: [
+            InkWell(
+              onTap: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        const AddAssignmentScreen(),
+                  ),
+                );
+
+                if (result != null) {
+                  setState(() {
+                    String temp = DateTime.now().toIso8601String();
+                    addUserAssignment(
+                        result[0],
+                        result[1],
+                        DateTime.parse(result[2]),
+                        result[3],
+                        false,
+                        temp,
+                        Student.uid);
+                    assignList.add(AssignmetData(result[0], result[1],
+                        DateTime.parse(result[2]), result[3], false, temp));
+                  });
+                }
+              },
+              child: Row(children: [
+                const Icon(Icons.add_circle),
+                const SizedBox(
+                  width: kDefaultPadding / 5,
+                ),
+                Text(
+                  'Add',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(
+                  width: kDefaultPadding / 3,
+                ),
+              ]),
+            )
+          ],
         ),
         body: Column(
           children: [
@@ -80,12 +131,9 @@ class AssignmentScreen extends StatelessWidget {
                                     ),
                                     const SizeBoxOpt(high: kDefaultPadding / 2),
                                     AssignDetail(
-                                        title: 'Assignment Date:',
-                                        data: assignList[index].assignmentDate),
-                                    const SizeBoxOpt(high: kDefaultPadding / 2),
-                                    AssignDetail(
                                         title: 'Deadline:',
-                                        data: assignList[index].deadLine),
+                                        data: DateFormat('M/d/y').format(
+                                            assignList[index].deadLine)),
                                     const SizeBoxOpt(high: kDefaultPadding / 2),
                                     AssignDetail(
                                         title: 'Note:',
@@ -140,6 +188,8 @@ class SubmitBtn extends StatelessWidget {
         } else {
           assignList[index].isSubmitted = false;
           Navigator.of(context).popAndPushNamed(AssignmentScreen.routeName);
+          updateAssignmentFromFirebaseByUid(
+              assignList[index].id, assignList[index].isSubmitted);
         }
       },
       child: Container(
@@ -244,6 +294,9 @@ Widget _buildPopupDialog(BuildContext context, {required int index}) {
             onPressed: () {
               Navigator.of(context).pop();
               assignList[index].isSubmitted = !assignList[index].isSubmitted;
+              print(assignList[index].id);
+              updateAssignmentFromFirebaseByUid(
+                  assignList[index].id, assignList[index].isSubmitted);
               Navigator.of(context).popAndPushNamed(
                   AssignmentScreen.routeName); // Reload lại trang
             },

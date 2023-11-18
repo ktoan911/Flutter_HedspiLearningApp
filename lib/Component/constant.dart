@@ -78,6 +78,7 @@ class FirebaseStringConst {
   static const ProfileCollection = 'UserProfile';
   static const NoteCollection = 'Note';
   static const ResultCollection = 'Result';
+  static const AssignmentCollection = 'Assignment';
 }
 
 class DataSave {

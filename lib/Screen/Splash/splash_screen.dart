@@ -2,7 +2,8 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/AppData.dart';
+import 'package:flutter/services.dart';
+import 'package:hedspi_learningapp/ProfileData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Component/local_storage.dart';
 import 'package:hedspi_learningapp/Firebase/firebase_auth_implemention/firebase_auth_services.dart';
@@ -22,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    closeKeyboard();
     Future.delayed(const Duration(seconds: 5), () {
       checkLogin(context);
     });
@@ -64,4 +66,8 @@ void autoLogin(BuildContext context, String email, String password) async {
     Navigator.pushNamedAndRemoveUntil(
         context, LoginScreen.routeName, (route) => false);
   }
+}
+
+void closeKeyboard() {
+  SystemChannels.textInput.invokeMethod('TextInput.hide');
 }
