@@ -16,6 +16,14 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+  void deleteResult(int index) {
+    setState(() {
+      ResultData result = resultList[index];
+      deleteResultFromFirebaseByResultId(result.resultID);
+      resultList.remove(result);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double result = SumScore(resultList);
@@ -78,85 +86,102 @@ class _ResultScreenState extends State<ResultScreen> {
                   padding: const EdgeInsets.all(kDefaultPadding),
                   itemCount: resultList.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: kDefaultPadding),
-                      padding: const EdgeInsets.all(kDefaultPadding / 2),
-                      decoration: BoxDecoration(
-                          color: kPrimaryColor,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: kTextLightColor,
-                              //spreadRadius: 1,
-                              blurRadius: 2,
-                              //offset: Offset(0, 1)
-                            )
-                          ],
-                          borderRadius: BorderRadius.circular(kDefaultPadding)),
-                      child: Column(children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              resultList[index].subjectName,
-                              textAlign: TextAlign.start,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(color: kTextWhiteColor),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '${resultList[index].totalScore}/10',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(color: kTextWhiteColor),
-                                ),
-                                Stack(
-                                  children: [
-                                    Container(
-                                      width: 100,
-                                      height: 20.0,
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey[700],
-                                          borderRadius: const BorderRadius.only(
-                                              topLeft: Radius.circular(
-                                                  kDefaultPadding),
-                                              bottomRight: Radius.circular(
-                                                  kDefaultPadding))),
-                                    ),
-                                    Container(
-                                      width: resultList[index].totalScore * 10,
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                          color: getGradeColor(
-                                              resultList[index].totalScore /
-                                                  10 *
-                                                  4),
-                                          borderRadius: const BorderRadius.only(
-                                              topLeft: Radius.circular(
-                                                  kDefaultPadding),
-                                              bottomRight: Radius.circular(
-                                                  kDefaultPadding))),
-                                    )
-                                  ],
-                                ),
-                                Text(
-                                  getGrade(
-                                      resultList[index].totalScore / 10 * 4),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(fontWeight: FontWeight.w300),
-                                )
-                              ],
-                            ),
-                          ],
-                        )
-                      ]),
+                    return GestureDetector(
+                      onLongPress: () async {
+                        final result = await popupCheckDelete(context);
+                        if (result != null && result) {
+                          deleteResult(index);
+                        }
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: kDefaultPadding),
+                        padding: const EdgeInsets.all(kDefaultPadding / 2),
+                        decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: kTextLightColor,
+                                //spreadRadius: 1,
+                                blurRadius: 2,
+                                //offset: Offset(0, 1)
+                              )
+                            ],
+                            borderRadius:
+                                BorderRadius.circular(kDefaultPadding)),
+                        child: Column(children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                resultList[index].subjectName,
+                                textAlign: TextAlign.start,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: kTextWhiteColor),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '${resultList[index].totalScore}/10',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(color: kTextWhiteColor),
+                                  ),
+                                  Stack(
+                                    children: [
+                                      Container(
+                                        width: 100,
+                                        height: 20.0,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[700],
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topLeft: Radius.circular(
+                                                        kDefaultPadding),
+                                                    bottomRight:
+                                                        Radius.circular(
+                                                            kDefaultPadding))),
+                                      ),
+                                      Container(
+                                        width:
+                                            resultList[index].totalScore * 10,
+                                        height: 20,
+                                        decoration: BoxDecoration(
+                                            color: getGradeColor(
+                                                resultList[index]
+                                                        .totalScore /
+                                                    10 *
+                                                    4),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(
+                                                            kDefaultPadding),
+                                                    bottomRight:
+                                                        Radius.circular(
+                                                            kDefaultPadding))),
+                                      )
+                                    ],
+                                  ),
+                                  Text(
+                                    getGrade(
+                                        resultList[index].totalScore / 10 * 4),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(fontWeight: FontWeight.w300),
+                                  )
+                                ],
+                              ),
+                            ],
+                          )
+                        ]),
+                      ),
                     );
                   },
                 ),
@@ -175,7 +200,8 @@ class _ResultScreenState extends State<ResultScreen> {
 
             if (ans != null) {
               setState(() {
-                addUserResult(ans[2], ans[0], ans[1], Student.uid);
+                String resultCode = DateTime.now().toIso8601String();
+                addUserResult(ans[2], ans[0], ans[1], Student.uid, resultCode);
                 double tmp = 0;
                 int temp = 0;
                 if (double.tryParse(ans[1]) != null) {
@@ -184,7 +210,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 if (int.tryParse(ans[2]) != null) {
                   temp = int.parse(ans[2]);
                 }
-                resultList.add(ResultData(ans[0], tmp, temp));
+                resultList.add(ResultData(ans[0], tmp, temp, resultCode));
               });
             }
           },
@@ -224,4 +250,90 @@ Color getGradeColor(double score) {
   } else {
     return Colors.red;
   }
+}
+
+Future<dynamic> popupCheckDelete(BuildContext context) {
+  return showGeneralDialog(
+    context: context,
+    pageBuilder: (BuildContext buildContext, Animation<double> animation,
+        Animation<double> secondaryAnimation) {
+      final Widget pageChild = Builder(
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.transparent,
+            contentPadding: EdgeInsets.zero,
+            content: Container(
+              decoration: BoxDecoration(
+                color: kSecondaryColor.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.info,
+                    color: Colors.grey,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Are you sure that you want to delete this result?',
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red),
+                        onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                        child: const SizedBox(
+                          width: 60,
+                          child: Text(
+                            'No',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                        onPressed: () {
+                          Navigator.pop(context, true);
+                        },
+                        child: const SizedBox(
+                          width: 60,
+                          child: Text(
+                            'Yes',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+      return pageChild;
+    },
+    barrierColor: Colors.black.withOpacity(0.5),
+    barrierDismissible: true,
+    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+    transitionDuration: const Duration(milliseconds: 200),
+    transitionBuilder: (BuildContext context, Animation<double> animation,
+        Animation<double> secondaryAnimation, Widget child) {
+      return ScaleTransition(
+        scale: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
+        child: child,
+      );
+    },
+  );
 }

@@ -4,8 +4,10 @@ class ResultData {
   late String subjectName;
   late double totalScore;
   late int numbercredit;
+  late String resultID;
 
-  ResultData(this.subjectName, this.totalScore, this.numbercredit);
+  ResultData(
+      this.subjectName, this.totalScore, this.numbercredit, this.resultID);
 }
 
 List<ResultData> resultList = [];
@@ -27,6 +29,7 @@ int numberOutstandingCourse(List<ResultData> resultList) {
 }
 
 double SumScore(List<ResultData> resultList) {
+  //if (resultList.isEmpty) return 0;
   double sumMark = 0;
   for (int i = 0; i < resultList.length; i++) {
     sumMark +=

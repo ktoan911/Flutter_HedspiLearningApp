@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/Screen/Ask/Ask_screen.dart';
+import 'package:hedspi_learningapp/Screen/Ask/ask_screen.dart';
 import 'package:hedspi_learningapp/Screen/Dictionary/dictionary.dart';
 import 'package:hedspi_learningapp/Screen/Note/note_screen.dart';
 import 'package:hedspi_learningapp/Screen/Register_Screen/FillProifileScreen/new_profile_screen.dart';

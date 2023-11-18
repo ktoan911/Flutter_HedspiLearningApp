@@ -87,7 +87,7 @@ class _AddResultScreenState extends State<AddResultScreen> {
             Navigator.pop(context, [
               _subjectnameController.text,
               _totalscoreController.text,
-              _creditController.text
+              _creditController.text,
             ]);
           }
         },
@@ -195,8 +195,8 @@ class ProfileFillNumDouble extends StatelessWidget {
             return 'Please enter your $title';
             //if dose not match the regex pattern
           }
-
-          if (double.tryParse(value) == null) {
+          double? tempVal = double.tryParse(value);
+          if (tempVal == null || tempVal > 10 || tempVal < 0) {
             return 'Please enter a valid number for $title';
           }
           return null;

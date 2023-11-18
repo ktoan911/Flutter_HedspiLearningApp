@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hedspi_learningapp/AppData.dart';
 import 'package:hedspi_learningapp/Component/local_storage.dart';
-import 'package:hedspi_learningapp/Screen/Ask/Ask_screen.dart';
+import 'package:hedspi_learningapp/Screen/Ask/ask_screen.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Screen/Dictionary/dictionary.dart';
 import 'package:hedspi_learningapp/Screen/Note/note_screen.dart';
@@ -274,14 +274,4 @@ Future<void> _launchURL(Uri url) async {
   if (!await launchUrl(url)) {
     throw Exception('Could not launch $url');
   }
-}
-
-Future<void> loadData(BuildContext context, String route) async {
-  // Thực hiện tải lại dữ liệu ở đây (đảm bảo bạn cập nhật dữ liệu từ nguồn dữ liệu mới)
-
-  // Chờ 1 khoảng thời gian ngắn để mô phỏng việc tải lại dữ liệu
-  await Future.delayed(const Duration(seconds: 1));
-
-  // Thay thế màn hình hiện tại bằng màn hình kết quả
-  Navigator.pushReplacementNamed(context, route);
 }

@@ -255,52 +255,88 @@ class _NoteScreenState extends State<NoteScreen> {
   }
 
   Future<dynamic> popupCheckDelete(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: kSecondaryColor.withOpacity(0.5),
-            icon: const Icon(
-              Icons.info,
-              color: Colors.grey,
-            ),
-            title: const Text(
-              'Are you sure that you want to delete this note?',
-              style: TextStyle(color: Colors.white),
-            ),
-            content: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                      onPressed: () {
-                        Navigator.pop(context, false);
-                      },
-                      child: const SizedBox(
-                        width: 60,
-                        child: Text(
-                          'No',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
+    return showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext buildContext, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        final Widget pageChild = Builder(
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              contentPadding: EdgeInsets.zero,
+              content: Container(
+                decoration: BoxDecoration(
+                  color: kSecondaryColor.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.info,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Are you sure that you want to delete this note?',
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red),
+                          onPressed: () {
+                            Navigator.pop(context, false);
+                          },
+                          child: const SizedBox(
+                            width: 60,
+                            child: Text(
+                              'No',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
                         ),
-                      )),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green),
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                      },
-                      child: const SizedBox(
-                        width: 60,
-                        child: Text(
-                          'Yes',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green),
+                          onPressed: () {
+                            Navigator.pop(context, true);
+                          },
+                          child: const SizedBox(
+                            width: 60,
+                            child: Text(
+                              'Yes',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
                         ),
-                      )),
-                ]),
-          );
-        });
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+        return pageChild;
+      },
+      barrierColor: Colors.black.withOpacity(0.5),
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      transitionDuration: const Duration(milliseconds: 200),
+      transitionBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation, Widget child) {
+        return ScaleTransition(
+          scale: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
+          child: child,
+        );
+      },
+    );
   }
 }

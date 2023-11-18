@@ -50,12 +50,8 @@ Future addUserNote(
   });
 }
 
-Future addUserResult(
-  String numbercredit,
-  String subjectname,
-  String totalscore,
-  String uid,
-) async {
+Future addUserResult(String numbercredit, String subjectname, String totalscore,
+    String uid, String resultID) async {
   await FirebaseFirestore.instance
       .collection(FirebaseStringConst.ResultCollection)
       .add({
@@ -63,6 +59,7 @@ Future addUserResult(
     'subjectname': subjectname,
     'totalscore': totalscore,
     'uid': uid,
+    'resultid': resultID,
   });
 }
 
@@ -141,6 +138,24 @@ Future<void> deleteNoteFromFirebaseByNoteId(String noteID) async {
   }
 }
 
+Future<void> deleteResultFromFirebaseByResultId(String resultID) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseStringConst.ResultCollection)
+        .where('resultid', isEqualTo: resultID)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      await querySnapshot.docs.first.reference.delete();
+    } else {
+      // Không tìm thấy dữ liệu
+      print("Không tìm thấy dữ liệu với uid $resultID");
+    }
+  } catch (e) {
+    print("Lỗi khi tìm kiếm dữ liệu result: $e");
+  }
+}
+
 Future<void> getResultFromUid(String uid) async {
   try {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -163,11 +178,8 @@ Future<void> getResultFromUid(String uid) async {
           temp = int.parse(data['numbercredit']);
         }
 
-        resultList.add(ResultData(
-          data['subjectname'],
-          tmp,
-          temp,
-        ));
+        resultList
+            .add(ResultData(data['subjectname'], tmp, temp, data['resultid']));
       }
     } else {
       // Không tìm thấy dữ liệu
