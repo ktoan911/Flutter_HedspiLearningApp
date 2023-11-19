@@ -13,3 +13,13 @@ List<AssignmetData> assignList = [];
 void sortAssignmentList() {
   assignList.sort((a, b) => a.deadLine.compareTo(b.deadLine));
 }
+
+int numberAssignmentUndo() {
+  int count = 0;
+  for (int i = 0; i < assignList.length; i++) {
+    if (!assignList[i].isSubmitted) {
+      count++;
+    }
+  }
+  return count;
+}

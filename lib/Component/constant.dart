@@ -49,6 +49,7 @@ const String resume_icon = 'assets/icons/resume.svg';
 const String setting_icon = 'assets/icons/setting.svg';
 const String logout_icon = 'assets/icons/logout.svg';
 const String translate_icon = 'assets/icons/translate.svg';
+const String schooler_icon = 'assets/icons/Schooler.svg';
 
 List<Color> backgroundColors = [
   const Color(0xFFCCE5FF), // light blue

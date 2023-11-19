@@ -7,6 +7,7 @@ class Student {
   static double averageScore = 9.8;
   static String regisNum = '2022-HUST-2609';
   static String studyYear = '';
+  static int numberAssignment = 0;
 
   // ignore: non_constant_identifier_names
   static String student_img = 'assets/images/student.png';

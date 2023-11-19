@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hedspi_learningapp/Component/local_storage.dart';
 import 'package:hedspi_learningapp/Screen/Ask/ask_screen.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
+import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_data.dart';
 import 'package:hedspi_learningapp/Screen/Dictionary/dictionary.dart';
 import 'package:hedspi_learningapp/Screen/Note/note_screen.dart';
 import 'package:hedspi_learningapp/Screen/Result/result_data.dart';
@@ -56,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, snapshot) {
             if (isLoadDataFromFirebase == true) {
               Student.averageScore = SumScore(resultList);
+              Student.numberAssignment = numberAssignmentUndo();
               return const homePage();
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               // Trạng thái đang đợi (đang tải dữ liệu)
@@ -67,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // Trạng thái hoàn thành, dữ liệu đã tải xong
               isLoadDataFromFirebase = true;
               Student.averageScore = SumScore(resultList);
+              Student.numberAssignment = numberAssignmentUndo();
               return const homePage();
             }
           },
@@ -120,9 +123,9 @@ class homePage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const HighLightInfo(
-                    title: 'Attendance',
-                    data: '100%',
+                  HighLightInfo(
+                    title: 'Assignment',
+                    data: Student.numberAssignment.toString(),
                   ),
                   HighLightInfo(
                     onPress: () {
@@ -219,7 +222,7 @@ class homePage extends StatelessWidget {
                                   Navigator.pushNamed(
                                       context, SchoolerScreen.routeName);
                                 },
-                                icon: setting_icon,
+                                icon: schooler_icon,
                                 title: 'Schooler'),
                             HomeOptionSelect(
                                 onPress: () {
