@@ -8,6 +8,7 @@ import 'package:hedspi_learningapp/Screen/Result/result_screen.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_screen.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 import 'package:hedspi_learningapp/Screen/Register_Screen/register_screen.dart';
+import 'package:hedspi_learningapp/Screen/Schooler/schooler_screen.dart';
 import 'package:hedspi_learningapp/Screen/Student_Profile/student_proffile.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/Screen/Splash/splash_screen.dart';
@@ -28,4 +29,5 @@ Map<String, WidgetBuilder> routes = {
   AddResultScreen.routeName: (context) => AddResultScreen(),
   DictionaryScreen.routeName: (context) => const DictionaryScreen(),
   AskScreen.routeName: (context) => const AskScreen(),
+  SchoolerScreen.routeName: (context) => const SchoolerScreen(),
 };

@@ -79,6 +79,7 @@ class FirebaseStringConst {
   static const NoteCollection = 'Note';
   static const ResultCollection = 'Result';
   static const AssignmentCollection = 'Assignment';
+  static const TimetableCollection = 'Timetable';
 }
 
 class DataSave {
@@ -89,4 +90,14 @@ class DataSave {
   static String emailSave = '';
   static String passwordSave = '';
   static bool isLoginSave = false;
+}
+
+class Weekday {
+  static const String monday = 'Monday';
+  static const String tuesday = 'Tuesday';
+  static const String wednesday = 'Wednesday';
+  static const String thursday = 'Thursday';
+  static const String friday = 'Friday';
+  static const String saturday = 'Saturday';
+  static const String sunday = 'Sunday';
 }

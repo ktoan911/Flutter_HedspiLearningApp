@@ -3,7 +3,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hedspi_learningapp/ProfileData.dart';
 import 'package:hedspi_learningapp/Component/local_storage.dart';
 import 'package:hedspi_learningapp/Screen/Ask/ask_screen.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
@@ -13,6 +12,8 @@ import 'package:hedspi_learningapp/Screen/Result/result_data.dart';
 import 'package:hedspi_learningapp/Screen/Result/result_screen.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_screen.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
+import 'package:hedspi_learningapp/Screen/Schooler/schooler_screen.dart';
+import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/Widget/Student_Data.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Screen/TimeTable/timetabl_screen.dart';
@@ -53,7 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
         child: FutureBuilder(
           future: _data,
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (isLoadDataFromFirebase == true) {
+              Student.averageScore = SumScore(resultList);
+              return const homePage();
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
               // Trạng thái đang đợi (đang tải dữ liệu)
               return const CircularProgressIndicator();
             } else if (snapshot.hasError) {
@@ -61,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return Text('Lỗi: ${snapshot.error}');
             } else {
               // Trạng thái hoàn thành, dữ liệu đã tải xong
+              isLoadDataFromFirebase = true;
               Student.averageScore = SumScore(resultList);
               return const homePage();
             }
@@ -209,10 +214,13 @@ class homePage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            const HomeOptionSelect(
-                                onPress: null,
+                            HomeOptionSelect(
+                                onPress: () {
+                                  Navigator.pushNamed(
+                                      context, SchoolerScreen.routeName);
+                                },
                                 icon: setting_icon,
-                                title: 'Setting'),
+                                title: 'Schooler'),
                             HomeOptionSelect(
                                 onPress: () {
                                   FirebaseAuth.instance.signOut();

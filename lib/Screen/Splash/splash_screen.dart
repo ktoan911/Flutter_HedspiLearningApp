@@ -3,11 +3,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hedspi_learningapp/ProfileData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Component/local_storage.dart';
+import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Firebase/firebase_auth_implemention/firebase_auth_services.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
+import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    isLoadDataFromFirebase = false;
     closeKeyboard();
     Future.delayed(const Duration(seconds: 5), () {
       checkLogin(context);

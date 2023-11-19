@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/ProfileData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Screen/Note/editNoteScreen.dart';
 import 'package:hedspi_learningapp/Screen/Note/note_data.dart';
+import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
 import 'package:intl/intl.dart';
 
 class NoteScreen extends StatefulWidget {

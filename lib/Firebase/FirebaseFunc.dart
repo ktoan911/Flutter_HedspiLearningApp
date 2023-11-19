@@ -1,11 +1,14 @@
 // ignore_for_file: file_names, non_constant_identifier_names, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hedspi_learningapp/ProfileData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_data.dart';
 import 'package:hedspi_learningapp/Screen/Note/note_data.dart';
 import 'package:hedspi_learningapp/Screen/Result/result_data.dart';
+import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
+import 'package:hedspi_learningapp/Screen/TimeTable/timetable_data.dart';
+
+bool isLoadDataFromFirebase = false;
 
 Future addUserDetail(
     String name,
@@ -47,6 +50,28 @@ Future addUserNote(
     'datetime': datetime,
     'title': title,
     'content': content,
+    'uid': uid,
+  });
+}
+
+Future addUserTimetable(
+  String id,
+  String subject,
+  String room,
+  String day,
+  String timebegin,
+  String timeend,
+  String uid,
+) async {
+  await FirebaseFirestore.instance
+      .collection(FirebaseStringConst.TimetableCollection)
+      .add({
+    'id': id,
+    'subject': subject,
+    'room': room,
+    'day': day,
+    'timebegin': timebegin,
+    'timeend': timeend,
     'uid': uid,
   });
 }
@@ -256,6 +281,38 @@ Future<void> getResultFromUid(String uid) async {
   }
 }
 
+Future<void> getTimetableFromUid(String uid) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseStringConst.TimetableCollection)
+        .where('uid', isEqualTo: uid)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      timeTableList.clear();
+      // Dữ liệu được tìm thấy
+      for (QueryDocumentSnapshot document in querySnapshot.docs) {
+        // Truy cập dữ liệu từ mỗi tài liệu
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+
+        timeTableList.add(TimeTableData(
+            subject: data['subject'],
+            room: data['room'],
+            day: data['day'],
+            timeBegin: TimeTableData.stringToTimeOfDay(data['timebegin']),
+            timeEnd: TimeTableData.stringToTimeOfDay(data['timeend']),
+            id: data['id']));
+      }
+      sortTimetbaleList();
+    } else {
+      // Không tìm thấy dữ liệu
+      print("Không tìm thấy dữ liệu với uid $uid");
+    }
+  } catch (e) {
+    print("Lỗi khi tìm kiếm dữ liệu timetbale: $e");
+  }
+}
+
 Future<void> getAssignmentFromUid(String uid) async {
   try {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -280,6 +337,7 @@ Future<void> getAssignmentFromUid(String uid) async {
         assignList.add(AssignmetData(data['subjectname'], data['topicname'],
             tmp, data['note'], temp, data['id']));
       }
+      sortAssignmentList();
     } else {
       // Không tìm thấy dữ liệu
       print("Không tìm thấy dữ liệu với uid $uid");
@@ -294,4 +352,6 @@ Future<void> initialLoadHomePage(String uid) async {
   await getResultFromUid(uid);
   await getNoteFromFirebaseByUid(uid);
   await getAssignmentFromUid(uid);
+  await getTimetableFromUid(uid);
+  isLoadDataFromFirebase = true;
 }

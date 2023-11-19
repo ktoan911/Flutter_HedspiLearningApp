@@ -10,3 +10,6 @@ class AssignmetData {
 }
 
 List<AssignmetData> assignList = [];
+void sortAssignmentList() {
+  assignList.sort((a, b) => a.deadLine.compareTo(b.deadLine));
+}

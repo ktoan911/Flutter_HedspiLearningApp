@@ -24,24 +24,11 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
   final _formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    // if (widget.resultData != null) {
-    //   _subjectnameController =
-    //       TextEditingController(text: widget.resultData!.subjectName);
-    //   _topicnameController =
-    //       TextEditingController(text: widget.resultData!.totalScore.toString());
-    //   _deadlineController = TextEditingController(
-    //       text: widget.resultData!.numbercredit.toString());
-    // }
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-            'Add Result',
+            'Add Assignment',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           centerTitle: true),

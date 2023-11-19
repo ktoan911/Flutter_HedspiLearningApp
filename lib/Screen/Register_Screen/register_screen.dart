@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/ProfileData.dart';
 import 'package:hedspi_learningapp/Screen/Register_Screen/FillProifileScreen/new_profile_screen.dart';
 import 'package:hedspi_learningapp/Screen/LoginScreen/login_screen.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
+import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
 
 late bool _passwordInVisible;
 

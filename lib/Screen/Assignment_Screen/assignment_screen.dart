@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
-import 'package:hedspi_learningapp/ProfileData.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/add_assignment.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_data.dart';
+import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
 import 'package:intl/intl.dart';
 
 class AssignmentScreen extends StatefulWidget {
@@ -50,6 +50,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                         Student.uid);
                     assignList.add(AssignmetData(result[0], result[1],
                         DateTime.parse(result[2]), result[3], false, temp));
+                    sortAssignmentList();
                   });
                 }
               },
@@ -294,7 +295,6 @@ Widget _buildPopupDialog(BuildContext context, {required int index}) {
             onPressed: () {
               Navigator.of(context).pop();
               assignList[index].isSubmitted = !assignList[index].isSubmitted;
-              print(assignList[index].id);
               updateAssignmentFromFirebaseByUid(
                   assignList[index].id, assignList[index].isSubmitted);
               Navigator.of(context).popAndPushNamed(

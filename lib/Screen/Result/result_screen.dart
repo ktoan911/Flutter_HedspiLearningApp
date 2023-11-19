@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hedspi_learningapp/ProfileData.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Screen/Result/result_component.dart';
 import 'package:hedspi_learningapp/Screen/Result/add_result_screen.dart';
 import 'package:hedspi_learningapp/Screen/Result/result_data.dart';
+import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
+import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key});
@@ -27,196 +28,202 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
     double result = SumScore(resultList);
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Results',
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(fontWeight: FontWeight.w600),
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+        return Future.value(false);
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'Results',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(fontWeight: FontWeight.w600),
+            ),
+            centerTitle: true,
           ),
-          centerTitle: true,
-        ),
-        body: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height / 5,
-              margin: const EdgeInsets.all(kDefaultPadding),
-              child: CustomPaint(
-                foregroundPainter: CircularPainter(
-                    backgroundColor: Colors.white,
-                    lineColor: getGradeColor(result),
-                    width: 30,
-                    percent: result / 4.0),
-                child: Center(
-                  child: Text('$result\n/4.0',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: kTextWhiteColor, fontSize: 25)),
+          body: Column(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height / 5,
+                margin: const EdgeInsets.all(kDefaultPadding),
+                child: CustomPaint(
+                  foregroundPainter: CircularPainter(
+                      backgroundColor: Colors.white,
+                      lineColor: getGradeColor(result),
+                      width: 30,
+                      percent: result / 4.0),
+                  child: Center(
+                    child: Text('$result\n/4.0',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: kTextWhiteColor, fontSize: 25)),
+                  ),
                 ),
               ),
-            ),
-            Text(
-              'You are so ${getGrade(result)}!!',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(fontWeight: FontWeight.w300),
-            ),
-            Text(
-              Student.name,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(fontWeight: FontWeight.w900),
-            ),
-            sizedBox,
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                    color: kOtherColor,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(kDefaultPadding),
-                        topRight: Radius.circular(kDefaultPadding))),
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  itemCount: resultList.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onLongPress: () async {
-                        final result = await popupCheckDelete(context);
-                        if (result != null && result) {
-                          deleteResult(index);
-                        }
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: kDefaultPadding),
-                        padding: const EdgeInsets.all(kDefaultPadding / 2),
-                        decoration: BoxDecoration(
-                            color: kPrimaryColor,
-                            boxShadow: const [
-                              BoxShadow(
-                                color: kTextLightColor,
-                                //spreadRadius: 1,
-                                blurRadius: 2,
-                                //offset: Offset(0, 1)
-                              )
-                            ],
-                            borderRadius:
-                                BorderRadius.circular(kDefaultPadding)),
-                        child: Column(children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                resultList[index].subjectName,
-                                textAlign: TextAlign.start,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: kTextWhiteColor),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '${resultList[index].totalScore}/10',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(color: kTextWhiteColor),
-                                  ),
-                                  Stack(
-                                    children: [
-                                      Container(
-                                        width: 100,
-                                        height: 20.0,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey[700],
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                                    topLeft: Radius.circular(
-                                                        kDefaultPadding),
-                                                    bottomRight:
-                                                        Radius.circular(
-                                                            kDefaultPadding))),
-                                      ),
-                                      Container(
-                                        width:
-                                            resultList[index].totalScore * 10,
-                                        height: 20,
-                                        decoration: BoxDecoration(
-                                            color: getGradeColor(
-                                                resultList[index]
-                                                        .totalScore /
-                                                    10 *
-                                                    4),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(
-                                                            kDefaultPadding),
-                                                    bottomRight:
-                                                        Radius.circular(
-                                                            kDefaultPadding))),
-                                      )
-                                    ],
-                                  ),
-                                  Text(
-                                    getGrade(
-                                        resultList[index].totalScore / 10 * 4),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(fontWeight: FontWeight.w300),
-                                  )
-                                ],
-                              ),
-                            ],
-                          )
-                        ]),
-                      ),
-                    );
-                  },
+              Text(
+                'You are so ${getGrade(result)}!!',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(fontWeight: FontWeight.w300),
+              ),
+              Text(
+                Student.name,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(fontWeight: FontWeight.w900),
+              ),
+              sizedBox,
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: kOtherColor,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(kDefaultPadding),
+                          topRight: Radius.circular(kDefaultPadding))),
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.all(kDefaultPadding),
+                    itemCount: resultList.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onLongPress: () async {
+                          final result = await popupCheckDelete(context);
+                          if (result != null && result) {
+                            deleteResult(index);
+                          }
+                        },
+                        child: Container(
+                          margin:
+                              const EdgeInsets.only(bottom: kDefaultPadding),
+                          padding: const EdgeInsets.all(kDefaultPadding / 2),
+                          decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: kTextLightColor,
+                                  //spreadRadius: 1,
+                                  blurRadius: 2,
+                                  //offset: Offset(0, 1)
+                                )
+                              ],
+                              borderRadius:
+                                  BorderRadius.circular(kDefaultPadding)),
+                          child: Column(children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  resultList[index].subjectName,
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(color: kTextWhiteColor),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '${resultList[index].totalScore}/10',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(color: kTextWhiteColor),
+                                    ),
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          width: 100,
+                                          height: 20.0,
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey[700],
+                                              borderRadius: const BorderRadius
+                                                  .only(
+                                                  topLeft: Radius.circular(
+                                                      kDefaultPadding),
+                                                  bottomRight: Radius.circular(
+                                                      kDefaultPadding))),
+                                        ),
+                                        Container(
+                                          width:
+                                              resultList[index].totalScore * 10,
+                                          height: 20,
+                                          decoration: BoxDecoration(
+                                              color: getGradeColor(
+                                                  resultList[index].totalScore /
+                                                      10 *
+                                                      4),
+                                              borderRadius: const BorderRadius
+                                                  .only(
+                                                  topLeft: Radius.circular(
+                                                      kDefaultPadding),
+                                                  bottomRight: Radius.circular(
+                                                      kDefaultPadding))),
+                                        )
+                                      ],
+                                    ),
+                                    Text(
+                                      getGrade(resultList[index].totalScore /
+                                          10 *
+                                          4),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                              fontWeight: FontWeight.w300),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            )
+                          ]),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            )
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final ans = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => AddResultScreen(),
-              ),
-            );
+              )
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              final ans = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => AddResultScreen(),
+                ),
+              );
 
-            if (ans != null) {
-              setState(() {
-                String resultCode = DateTime.now().toIso8601String();
-                addUserResult(ans[2], ans[0], ans[1], Student.uid, resultCode);
-                double tmp = 0;
-                int temp = 0;
-                if (double.tryParse(ans[1]) != null) {
-                  tmp = double.parse(ans[1]);
-                }
-                if (int.tryParse(ans[2]) != null) {
-                  temp = int.parse(ans[2]);
-                }
-                resultList.add(ResultData(ans[0], tmp, temp, resultCode));
-              });
-            }
-          },
-          backgroundColor: kSecondaryColor.withOpacity(0.9),
-          child: const Icon(Icons.add),
-        ));
+              if (ans != null) {
+                setState(() {
+                  String resultCode = DateTime.now().toIso8601String();
+                  addUserResult(
+                      ans[2], ans[0], ans[1], Student.uid, resultCode);
+                  double tmp = 0;
+                  int temp = 0;
+                  if (double.tryParse(ans[1]) != null) {
+                    tmp = double.parse(ans[1]);
+                  }
+                  if (int.tryParse(ans[2]) != null) {
+                    temp = int.parse(ans[2]);
+                  }
+                  resultList.add(ResultData(ans[0], tmp, temp, resultCode));
+                });
+              }
+            },
+            backgroundColor: kSecondaryColor.withOpacity(0.9),
+            child: const Icon(Icons.add),
+          )),
+    );
   }
 }
 
