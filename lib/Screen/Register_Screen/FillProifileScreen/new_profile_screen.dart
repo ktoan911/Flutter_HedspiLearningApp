@@ -9,6 +9,7 @@ import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/Firebase/firebase_auth_implemention/firebase_auth_services.dart';
+import 'package:intl/intl.dart';
 
 final FireBaseAuthService _auth = FireBaseAuthService();
 
@@ -23,6 +24,7 @@ class FillProfileScreen extends StatefulWidget {
 
 class _FillProfileScreenState extends State<FillProfileScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _birthController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,22 +54,28 @@ class _FillProfileScreenState extends State<FillProfileScreen> {
               sizedBox,
               Form(
                 key: _formKey,
-                child: const Column(
+                child: Column(
                   children: [
-                    ProfileFill(title: StudentProfileConst.name),
+                    const ProfileFill(title: StudentProfileConst.name),
                     sizedBox,
-                    ProfileFill(title: StudentProfileConst.Class),
+                    const ProfileFill(title: StudentProfileConst.Class),
                     sizedBox,
-                    ProfileFill(title: StudentProfileConst.birth),
+                    ProfileFillDate(
+                      title: StudentProfileConst.birth,
+                      controller: _birthController,
+                    ),
                     sizedBox,
-                    ProfileFill(title: StudentProfileConst.studyYear),
+                    const ProfileFillNumber(
+                        title: StudentProfileConst.studyYear),
                     sizedBox,
-                    ProfileFill(title: StudentProfileConst.phoneNumber),
+                    const ProfileFillNumber(
+                        title: StudentProfileConst.phoneNumber),
                     sizedBox,
-                    ProfileFill(title: StudentProfileConst.studentID),
+                    const ProfileFillNumber(
+                        title: StudentProfileConst.studentID),
                     sizedBox,
-                    ProfileFill(title: StudentProfileConst.homeTown),
-                    SizeBoxOpt(high: kDefaultPadding * 2),
+                    const ProfileFill(title: StudentProfileConst.homeTown),
+                    const SizeBoxOpt(high: kDefaultPadding * 2),
                   ],
                 ),
               ),
@@ -108,7 +116,6 @@ class ProfileFill extends StatelessWidget {
           updateStudent(title, value.trim());
         },
         textAlign: TextAlign.start,
-        keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
             color: kTextBlackColor,
             fontSize: 17.0,
@@ -118,6 +125,112 @@ class ProfileFill extends StatelessWidget {
           floatingLabelBehavior: FloatingLabelBehavior.always,
           isDense: true,
         ),
+        validator: (value) {
+          //FORM VALIDATION
+          if (value == null || value.isEmpty) {
+            return 'Please enter your $title';
+            //if dose not match the regex pattern
+          }
+          return null;
+        },
+      ),
+    );
+  }
+}
+
+class ProfileFillNumber extends StatelessWidget {
+  const ProfileFillNumber({
+    super.key,
+    required this.title,
+  });
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(
+        left: kDefaultPadding,
+        right: kDefaultPadding,
+      ),
+      child: TextFormField(
+        onChanged: (value) {
+          updateStudent(title, value.trim());
+        },
+        textAlign: TextAlign.start,
+        style: const TextStyle(
+            color: kTextBlackColor,
+            fontSize: 17.0,
+            fontWeight: FontWeight.w300),
+        decoration: InputDecoration(
+          labelText: title,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          isDense: true,
+        ),
+        validator: (value) {
+          //FORM VALIDATION
+          if (value == null || value.isEmpty) {
+            return 'Please enter your $title';
+            //if dose not match the regex pattern
+          } else if (int.tryParse(value) == null) {
+            return 'Please enter a number';
+          }
+          return null;
+        },
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class ProfileFillDate extends StatelessWidget {
+  ProfileFillDate({
+    Key? key,
+    required this.title,
+    required this.controller,
+  }) : super(key: key);
+
+  final String title;
+  late TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(
+        left: kDefaultPadding,
+        right: kDefaultPadding,
+      ),
+      child: TextFormField(
+        controller: controller,
+        textAlign: TextAlign.start,
+        style: const TextStyle(
+          color: kTextBlackColor,
+          fontSize: 17.0,
+          fontWeight: FontWeight.w300,
+        ),
+        decoration: InputDecoration(
+          labelText: title,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          isDense: true,
+        ),
+        onTap: () async {
+          FocusScope.of(context).requestFocus(FocusNode());
+
+          DateTime? date = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2010),
+            lastDate: DateTime(2050),
+          );
+
+          if (date != null) {
+            String formattedDate = DateFormat('MM/ dd / yyyy').format(date);
+            String dayOfWeek = DateFormat('EEEE').format(date); // Lấy thứ ngày
+
+            updateStudent(title, formattedDate);
+            controller.text = '$formattedDate ($dayOfWeek)';
+          }
+        },
         validator: (value) {
           //FORM VALIDATION
           if (value == null || value.isEmpty) {

@@ -247,6 +247,25 @@ Future<void> deleteResultFromFirebaseByResultId(String resultID) async {
   }
 }
 
+Future<void> deleteTimetableFromFirebaseByTimetabletId(
+    String timetableID) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseStringConst.TimetableCollection)
+        .where('id', isEqualTo: timetableID)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      await querySnapshot.docs.first.reference.delete();
+    } else {
+      // Không tìm thấy dữ liệu
+      print("Không tìm thấy dữ liệu với uid $timetableID");
+    }
+  } catch (e) {
+    print("Lỗi khi tìm kiếm dữ liệu timetable: $e");
+  }
+}
+
 Future<void> getResultFromUid(String uid) async {
   try {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance

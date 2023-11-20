@@ -284,7 +284,7 @@ class _NoteScreenState extends State<NoteScreen> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'Are you sure that you want to delete this note?',
+                      'Are you sure that you want to delete \nthis note?',
                       style: TextStyle(color: Colors.white),
                       textAlign: TextAlign.center,
                     ),

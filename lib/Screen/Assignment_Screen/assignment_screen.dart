@@ -4,6 +4,7 @@ import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/add_assignment.dart';
 import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_data.dart';
 import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
+import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:intl/intl.dart';
 
 class AssignmentScreen extends StatefulWidget {
@@ -18,153 +19,165 @@ class AssignmentScreen extends StatefulWidget {
 class _AssignmentScreenState extends State<AssignmentScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Assignments',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: kTextWhiteColor,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20)),
-          centerTitle: true,
-          actions: [
-            InkWell(
-              onTap: () async {
-                final result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        const AddAssignmentScreen(),
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+        return Future.value(false);
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text('Assignments',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: kTextWhiteColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20)),
+            centerTitle: true,
+            actions: [
+              InkWell(
+                onTap: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          const AddAssignmentScreen(),
+                    ),
+                  );
+
+                  if (result != null) {
+                    setState(() {
+                      String temp = DateTime.now().toIso8601String();
+                      addUserAssignment(
+                          result[0],
+                          result[1],
+                          DateTime.parse(result[2]),
+                          result[3],
+                          false,
+                          temp,
+                          Student.uid);
+                      assignList.add(AssignmetData(result[0], result[1],
+                          DateTime.parse(result[2]), result[3], false, temp));
+                      sortAssignmentList();
+                    });
+                  }
+                },
+                child: Row(children: [
+                  const Icon(Icons.add_circle),
+                  const SizedBox(
+                    width: kDefaultPadding / 5,
                   ),
-                );
-
-                if (result != null) {
-                  setState(() {
-                    String temp = DateTime.now().toIso8601String();
-                    addUserAssignment(
-                        result[0],
-                        result[1],
-                        DateTime.parse(result[2]),
-                        result[3],
-                        false,
-                        temp,
-                        Student.uid);
-                    assignList.add(AssignmetData(result[0], result[1],
-                        DateTime.parse(result[2]), result[3], false, temp));
-                    sortAssignmentList();
-                  });
-                }
-              },
-              child: Row(children: [
-                const Icon(Icons.add_circle),
-                const SizedBox(
-                  width: kDefaultPadding / 5,
-                ),
-                Text(
-                  'Add',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                const SizedBox(
-                  width: kDefaultPadding / 3,
-                ),
-              ]),
-            )
-          ],
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                    color: kOtherColor,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(kDefaultPadding),
-                        topRight: Radius.circular(kDefaultPadding))),
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  itemCount: assignList.length,
-                  itemBuilder: (context, int index) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: kDefaultPadding),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(kDefaultPadding),
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.circular(kDefaultPadding),
-                                  color: kOtherColor,
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: kTextLightColor,
-                                      blurRadius: 2,
-                                      // changes position of shadow
-                                    ),
-                                  ]),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        width: 100.0,
-                                        height: 30.0,
-                                        decoration: BoxDecoration(
-                                            color: kSecondaryColor
-                                                .withOpacity(0.4),
-                                            borderRadius: BorderRadius.circular(
-                                                kDefaultPadding)),
-                                        child: Center(
-                                          child: Text(
-                                            assignList[index].subjectName,
-                                            style: const TextStyle(
-                                                fontSize: 13.0,
-                                                fontWeight: FontWeight.w400,
-                                                color: kPrimaryColor),
+                  Text(
+                    'Add',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(
+                    width: kDefaultPadding / 3,
+                  ),
+                ]),
+              )
+            ],
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: kOtherColor,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(kDefaultPadding),
+                          topRight: Radius.circular(kDefaultPadding))),
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.all(kDefaultPadding),
+                    itemCount: assignList.length,
+                    itemBuilder: (context, int index) {
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: kDefaultPadding),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(kDefaultPadding),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(kDefaultPadding),
+                                    color: kOtherColor,
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: kTextLightColor,
+                                        blurRadius: 2,
+                                        // changes position of shadow
+                                      ),
+                                    ]),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          width: 100.0,
+                                          height: 30.0,
+                                          decoration: BoxDecoration(
+                                              color: kSecondaryColor
+                                                  .withOpacity(0.4),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      kDefaultPadding)),
+                                          child: Center(
+                                            child: Text(
+                                              assignList[index].subjectName,
+                                              style: const TextStyle(
+                                                  fontSize: 13.0,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: kPrimaryColor),
+                                            ),
+                                          )),
+                                      const SizeBoxOpt(
+                                          high: kDefaultPadding / 2),
+                                      Text(
+                                        assignList[index].topicName,
+                                        style: const TextStyle(
+                                            color: kTextBlackColor,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      const SizeBoxOpt(
+                                          high: kDefaultPadding / 2),
+                                      AssignDetail(
+                                          title: 'Deadline:',
+                                          data: DateFormat('M/d/y').format(
+                                              assignList[index].deadLine)),
+                                      const SizeBoxOpt(
+                                          high: kDefaultPadding / 2),
+                                      AssignDetail(
+                                          title: 'Note:',
+                                          data: assignList[index].note),
+                                      const SizeBoxOpt(
+                                          high: kDefaultPadding / 2),
+                                      SubmitBtn(
+                                          isSubmitted:
+                                              assignList[index].isSubmitted,
+                                          index: index,
+                                          onPress: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  _buildPopupDialog(context,
+                                                      index: index),
+                                            );
+                                          } // submit here,
                                           ),
-                                        )),
-                                    const SizeBoxOpt(high: kDefaultPadding / 2),
-                                    Text(
-                                      assignList[index].topicName,
-                                      style: const TextStyle(
-                                          color: kTextBlackColor,
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    const SizeBoxOpt(high: kDefaultPadding / 2),
-                                    AssignDetail(
-                                        title: 'Deadline:',
-                                        data: DateFormat('M/d/y').format(
-                                            assignList[index].deadLine)),
-                                    const SizeBoxOpt(high: kDefaultPadding / 2),
-                                    AssignDetail(
-                                        title: 'Note:',
-                                        data: assignList[index].note),
-                                    const SizeBoxOpt(high: kDefaultPadding / 2),
-                                    SubmitBtn(
-                                        isSubmitted:
-                                            assignList[index].isSubmitted,
-                                        index: index,
-                                        onPress: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                _buildPopupDialog(context,
-                                                    index: index),
-                                          );
-                                        } // submit here,
-                                        ),
-                                  ]),
-                            )
-                          ]),
-                    );
+                                    ]),
+                              )
+                            ]),
+                      );
 
-                    // ...
-                  },
+                      // ...
+                    },
+                  ),
                 ),
-              ),
-            )
-          ],
-        ));
+              )
+            ],
+          )),
+    );
   }
 }
 
