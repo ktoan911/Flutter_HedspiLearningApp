@@ -43,7 +43,7 @@ Easily access important study resources specific to Hedspi students. The app pro
 
 ## Support and Feedback
 
-If you encounter any issues or have suggestions for improvement, please [open an issue](https://github.com/ktoan_911/Flutter_HedspiLearningApp.git/issues). We value your feedback and are committed to making our app the best learning experience possible.
+If you encounter any issues or have suggestions for improvement, please [open an issue](https://github.com/ktoan911/Flutter_HedspiLearningApp/issues). We value your feedback and are committed to making our app the best learning experience possible.
 
 ## Connect With Us
 
