@@ -219,7 +219,7 @@ class ProfileFillDate extends StatelessWidget {
           DateTime? date = await showDatePicker(
             context: context,
             initialDate: DateTime.now(),
-            firstDate: DateTime(2010),
+            firstDate: DateTime(2000),
             lastDate: DateTime(2050),
           );
 

@@ -90,15 +90,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           title: 'SIGN IN',
                           icon: Icons.arrow_forward_outlined),
                       sizedBox,
-                      // Align(
-                      //   alignment: Alignment.bottomRight,
-                      //   child: Text('Forgot Password',
-                      //       style: Theme.of(context)
-                      //           .textTheme
-                      //           .bodySmall!
-                      //           .copyWith(
-                      //               color: kPrimaryColor, fontSize: 15.0)),
-                      // ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text('Forgot Password',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    color: kPrimaryColor, fontSize: 15.0)),
+                      ),
                       sizedBox,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -18,6 +18,7 @@ import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/Widget/Student_Data.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Screen/TimeTable/timetabl_screen.dart';
+import 'package:hedspi_learningapp/Sholarship%20Screen/scholarship_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
@@ -226,6 +227,18 @@ class homePage extends StatelessWidget {
                                 title: 'Schooler'),
                             HomeOptionSelect(
                                 onPress: () {
+                                  Navigator.pushNamed(
+                                      context, ScholarshipScreen.routeName);
+                                },
+                                icon: logout_icon,
+                                title: 'Scholarship Prediction'),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            HomeOptionSelect(
+                                onPress: () {
                                   FirebaseAuth.instance.signOut();
                                   setDataLoginCurrent(false, '', '');
                                   Navigator.pushNamedAndRemoveUntil(context,
@@ -233,6 +246,10 @@ class homePage extends StatelessWidget {
                                 },
                                 icon: logout_icon,
                                 title: 'Log out'),
+                            const SizedBox(
+                              height: kDefaultPadding * 8,
+                              width: kDefaultPadding * 7.5,
+                            ),
                           ],
                         ),
                       ]),

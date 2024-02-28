@@ -102,17 +102,22 @@ class StudentPicture extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class HighLightInfo extends StatelessWidget {
-  const HighLightInfo({
-    Key? key,
-    this.onPress,
-    required this.title,
-    required this.data,
-  }) : super(key: key);
+  HighLightInfo(
+      {Key? key,
+      this.onPress,
+      required this.title,
+      required this.data,
+      this.colorHighlight = kOtherColor,
+      this.colorText = kTextBlackColor})
+      : super(key: key);
 
   final VoidCallback? onPress;
   final String title;
   final String data;
+  Color colorHighlight;
+  Color colorText;
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +127,7 @@ class HighLightInfo extends StatelessWidget {
         width: MediaQuery.of(context).size.width / 2.5,
         height: MediaQuery.of(context).size.height / 9,
         decoration: BoxDecoration(
-          color: kOtherColor,
+          color: colorHighlight,
           borderRadius: BorderRadius.circular(kDefaultPadding),
         ),
         alignment: Alignment.topCenter,
@@ -131,16 +136,12 @@ class HighLightInfo extends StatelessWidget {
           Text(
             title,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.w800,
-                fontSize: 15,
-                color: kTextBlackColor),
+                fontWeight: FontWeight.w800, fontSize: 15, color: colorText),
           ),
           Text(
             data,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.w300,
-                fontSize: 30,
-                color: kTextBlackColor),
+                fontWeight: FontWeight.w300, fontSize: 30, color: colorText),
           ),
         ]),
       ),

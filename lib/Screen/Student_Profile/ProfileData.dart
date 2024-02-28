@@ -17,6 +17,9 @@ class Student {
   static String hometown = '';
   static String uid = '';
   static String password = '';
+  static String? major;
+  static String? semester;
+  static String? trainingPoint;
 
   static void setEmailPassword(String email, String password) {
     Student.email = email;
