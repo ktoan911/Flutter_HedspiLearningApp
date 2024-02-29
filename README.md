@@ -25,6 +25,10 @@ Tailor your learning environment with customizable timetables and personal infor
 
 Easily access important study resources specific to Hedspi students. The app provides quick links to relevant websites, helping you find the information and support you need for successful learning.
 
+### 5. <NEW> Prediction Scholarship for student in all schools in Hanoi University of Science and Technology
+
+Our app's new feature utilizes TensorFlow AI model to predict scholarships based on GPA, extracurricular scores, and other relevant data. With this capability, users can receive accurate estimates of scholarship attainability, aiding them in effectively planning their studies and confidently striving towards their goals.
+
 ## Getting Started
 
 1. **Download and Installation:**
