@@ -1,8 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Component/custom_btn.dart';
 import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
 
 class ScholarshipScreen extends StatefulWidget {
   const ScholarshipScreen({super.key});
@@ -13,7 +16,94 @@ class ScholarshipScreen extends StatefulWidget {
   State<ScholarshipScreen> createState() => _ScholarshipScreenState();
 }
 
+int index_picker = 0;
+int ans = 3;
+
 class _ScholarshipScreenState extends State<ScholarshipScreen> {
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Load TensorFlow Lite model on app start
+    loadModel();
+    ans = 3;
+  }
+
+  Future<void> loadModel() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      var interpreterOptions = InterpreterOptions()..threads = 4;
+      final interpreter = await Interpreter.fromAsset('assets/model.tflite',
+          options: interpreterOptions);
+      setState(() {
+        _isLoading = false;
+        print("Model loaded successfully");
+      });
+    } catch (e) {
+      print('Error loading model: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void predict() {
+    List<double> features = [
+      double.parse(Student.schoolYear),
+      Student.averageScore / 4.0,
+      double.parse(Student.trainingPoint) / 100.0,
+      double.parse(Student.semester)
+    ];
+    for (int i = 0; i < 55; i++) {
+      if (i == index_picker) {
+        features.add(1.0);
+      } else {
+        features.add(0.0);
+      }
+    }
+    classifyFeatures(features);
+  }
+
+  Future<void> classifyFeatures(List<double> features) async {
+    try {
+      var interpreterOptions = InterpreterOptions()..threads = 4;
+      final interpreter = await Interpreter.fromAsset('assets/model.tflite',
+          options: interpreterOptions);
+
+      var input = Float64List.fromList(features);
+      var output = List<double>.filled(1 * 4, 1);
+
+      var outputs =
+          List.filled(1, output); // Tạo danh sách 2 chiều với 1 hàng và 4 cột
+
+      // Run inference
+      interpreter.run(input, outputs);
+
+      setState(() {
+        List<double> flattenedOutputs = outputs.expand((list) => list).toList();
+        double max = -1;
+        for (int i = 0; i < flattenedOutputs.length; i++) {
+          if (flattenedOutputs[i] > max) {
+            max = flattenedOutputs[i];
+            ans = i;
+          }
+        }
+        print(outputs);
+        _isLoading = false;
+      });
+
+      interpreter.close();
+    } catch (e) {
+      print('Error classifying features: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -92,13 +182,22 @@ class _ScholarshipScreenState extends State<ScholarshipScreen> {
                           ),
                           const SizedBox(height: 10),
                           cuper_btn(context, titleMajor, majors),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 10),
                           cuper_btn(context, titleSemester, Semester),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 10),
                           cuper_btn(context, titleTrainingPoint, TrainingPoint),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 10),
+                          cuper_btn(context, titleSchoolYear, ki_hoc),
+                          const SizedBox(height: 10),
+                          Text(
+                            Muc_hb(ans),
+                            style: const TextStyle(color: kTextBlackColor),
+                          ),
+                          const SizedBox(height: 10),
                           DefaultBtn(
-                              onPress: () {},
+                              onPress: () {
+                                predict();
+                              },
                               title: 'Predict',
                               icon: Icons.batch_prediction)
                         ],
@@ -109,12 +208,13 @@ class _ScholarshipScreenState extends State<ScholarshipScreen> {
   String titleMajor = 'Major';
   String titleSemester = 'Semester';
   String titleTrainingPoint = 'Training Point';
+  String titleSchoolYear = 'School Year';
   // ignore: non_constant_identifier_names
   CupertinoButton cuper_btn(
       BuildContext context, String title, List<String> data) {
     return CupertinoButton(
       padding: const EdgeInsets.symmetric(
-          vertical: 30, horizontal: 90), // Đặt kích thước nút
+          vertical: 20, horizontal: 100), // Đặt kích thước nút
       color: kPrimaryColor, // Đặt màu cho nút
       child: Text(title),
       onPressed: () => showCupertinoModalPopup(
@@ -132,12 +232,16 @@ class _ScholarshipScreenState extends State<ScholarshipScreen> {
                 if (majors == data) {
                   Student.major = data[value];
                   titleMajor = majors[value];
+                  index_picker = value;
                 } else if (Semester == data) {
                   Student.semester = data[value];
                   titleSemester = Semester[value];
                 } else if (TrainingPoint == data) {
                   Student.trainingPoint = data[value];
                   titleTrainingPoint = TrainingPoint[value];
+                } else if (ki_hoc == data) {
+                  Student.schoolYear = data[value];
+                  titleSchoolYear = ki_hoc[value];
                 }
               });
             },
@@ -192,5 +296,18 @@ class BoxHighLight extends StatelessWidget {
         ]),
       ),
     );
+  }
+}
+
+String Muc_hb(int prediction) {
+  switch (prediction) {
+    case 0:
+      return "A Scholarship";
+    case 1:
+      return "B Scholarship";
+    case 2:
+      return "C Scholarship";
+    default:
+      return "Wish you luck next time";
   }
 }

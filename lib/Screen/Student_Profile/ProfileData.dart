@@ -8,6 +8,7 @@ class Student {
   static String regisNum = '2022-HUST-2609';
   static String studyYear = '';
   static int numberAssignment = 0;
+  static String schoolYear = '';
 
   // ignore: non_constant_identifier_names
   static String student_img = 'assets/images/student.png';
@@ -17,9 +18,9 @@ class Student {
   static String hometown = '';
   static String uid = '';
   static String password = '';
-  static String? major;
-  static String? semester;
-  static String? trainingPoint;
+  static String major = '';
+  static String semester = '';
+  static String trainingPoint = '';
 
   static void setEmailPassword(String email, String password) {
     Student.email = email;

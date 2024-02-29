@@ -13,7 +13,7 @@ import 'package:hedspi_learningapp/Screen/Student_Profile/student_proffile.dart'
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
 import 'package:hedspi_learningapp/Screen/Splash/splash_screen.dart';
 import 'package:hedspi_learningapp/Screen/TimeTable/timetabl_screen.dart';
-import 'package:hedspi_learningapp/Sholarship%20Screen/scholarship_screen.dart';
+import 'package:hedspi_learningapp/Screen/Sholarship%20Screen/scholarship_screen.dart';
 
 Map<String, WidgetBuilder> routes = {
   // SplashScreen.routeName: (context) => const SplashScreen(),

@@ -18,7 +18,7 @@ import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/Widget/Student_Data.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Screen/TimeTable/timetabl_screen.dart';
-import 'package:hedspi_learningapp/Sholarship%20Screen/scholarship_screen.dart';
+import 'package:hedspi_learningapp/Screen/Sholarship%20Screen/scholarship_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
@@ -230,7 +230,7 @@ class homePage extends StatelessWidget {
                                   Navigator.pushNamed(
                                       context, ScholarshipScreen.routeName);
                                 },
-                                icon: logout_icon,
+                                icon: event_icon,
                                 title: 'Scholarship Prediction'),
                           ],
                         ),
