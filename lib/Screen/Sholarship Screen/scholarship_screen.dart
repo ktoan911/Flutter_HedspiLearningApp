@@ -1,5 +1,6 @@
-import 'dart:typed_data';
+// ignore_for_file: non_constant_identifier_names, avoid_print
 
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/constant.dart';
 import 'package:hedspi_learningapp/Component/custom_btn.dart';
@@ -52,7 +53,7 @@ class _ScholarshipScreenState extends State<ScholarshipScreen> {
 
   void predict() {
     List<double> features = [
-      double.parse(Student.schoolYear),
+      double.parse(Student.schoolYear) - 60,
       Student.averageScore / 4.0,
       double.parse(Student.trainingPoint) / 100.0,
       double.parse(Student.semester)
@@ -64,6 +65,7 @@ class _ScholarshipScreenState extends State<ScholarshipScreen> {
         features.add(0.0);
       }
     }
+    print(features);
     classifyFeatures(features);
   }
 
