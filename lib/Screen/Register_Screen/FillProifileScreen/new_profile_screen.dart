@@ -281,6 +281,7 @@ void _signUp(BuildContext context) async {
     Student.uid = user.uid;
     Student.email = email;
     setDataLoginCurrent(true, email, password);
+    clearLocalData();
     addUserDetail(
         Student.name,
         Student.birth,

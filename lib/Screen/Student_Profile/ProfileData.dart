@@ -28,4 +28,4 @@ class Student {
   }
 }
 
-String errorLogin = '';
+String errorLogin = 'Log in error. Please try agai later';

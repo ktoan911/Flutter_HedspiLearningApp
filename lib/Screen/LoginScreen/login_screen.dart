@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hedspi_learningapp/Component/custom_btn.dart';
 import 'package:hedspi_learningapp/Component/local_storage.dart';
+import 'package:hedspi_learningapp/Firebase/FirebaseFunc.dart';
 import 'package:hedspi_learningapp/Screen/Register_Screen/register_screen.dart';
 import 'package:hedspi_learningapp/Screen/Student_Profile/ProfileData.dart';
 import 'package:hedspi_learningapp/Screen/home_screen/home_screen.dart';
@@ -250,6 +251,8 @@ class _LoginScreenState extends State<LoginScreen> {
       Student.uid = user.uid;
       Student.email = email;
       setDataLoginCurrent(true, email, password);
+      clearLocalData();
+      isLoadDataFromFirebase = false;
       Navigator.pushNamedAndRemoveUntil(
           context, HomeScreen.routeName, (route) => false);
     } else {

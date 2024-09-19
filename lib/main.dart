@@ -5,9 +5,11 @@ import 'package:hedspi_learningapp/routes.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Firebase/firebase_options.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(); // Tải biến môi trường từ file .env
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

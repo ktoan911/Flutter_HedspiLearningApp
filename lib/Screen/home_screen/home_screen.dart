@@ -45,8 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // Thực hiện tải dữ liệu
     await Future.delayed(
         const Duration(seconds: 3)); // Giả sử là quá trình tải mất 2 giây
-    return initialLoadHomePage(
-        Student.uid); // Thay bằng hàm thực hiện tải dữ liệu của bạn
+    
+    await initialLoadHomePage(Student.uid); // Thay bằng hàm thực hiện tải dữ liệu của bạn
   }
 
   @override
@@ -241,6 +241,7 @@ class homePage extends StatelessWidget {
                                 onPress: () {
                                   FirebaseAuth.instance.signOut();
                                   setDataLoginCurrent(false, '', '');
+                                  clearLocalData();
                                   Navigator.pushNamedAndRemoveUntil(context,
                                       LoginScreen.routeName, (route) => false);
                                 },

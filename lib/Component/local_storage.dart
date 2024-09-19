@@ -1,6 +1,9 @@
 import 'package:hedspi_learningapp/Component/constant.dart';
+import 'package:hedspi_learningapp/Screen/Assignment_Screen/assignment_data.dart';
+import 'package:hedspi_learningapp/Screen/Note/note_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:hedspi_learningapp/Screen/Result/result_data.dart';
+import 'package:hedspi_learningapp/Screen/TimeTable/timetable_data.dart';
 class SecureStorage {
   static checkIsLogin(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -32,4 +35,11 @@ void setDataLoginCurrent(bool isLogin, String email, String password) async {
   await SecureStorage.writeBool(DataSave.isLoginKey, isLogin);
   await SecureStorage.writeString(DataSave.emailKey, email);
   await SecureStorage.writeString(DataSave.passwordKey, password);
+}
+
+void clearLocalData() async {
+  resultList = [];
+  timeTableList = [];
+  assignList = [];
+  noteList = [];
 }
